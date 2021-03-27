@@ -9,6 +9,9 @@ interface RetrofitProductRESTAPI {
     @GET("/product")
     fun getProducts(): Call<List<Product>>
 
+    @GET("/product/{productId}")
+    fun getProduct(productId: String): Call<Product>
+
     companion object {
         val default: RetrofitProductRESTAPI by lazy {
             RetrofitClientFactory(BuildConfig.SERVICE_URL_PRODUCT)
