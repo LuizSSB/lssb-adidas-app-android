@@ -1,17 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="@dimen/margin_small">
 
-    <TextView
-        android:layout_width="0dp"
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/text_name"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+        android:layout_gravity="center"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="@dimen/card_elevation_default"
+        app:cardCornerRadius="@dimen/card_corner_radius_default">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_default">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="@dimen/size_product_image"
+                android:layout_height="@dimen/size_product_image"
+                android:id="@+id/container_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/image"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/ic_launcher_shin"
+                    android:contentDescription="@string/description_product_image" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/text_name"
+                android:layout_marginHorizontal="@dimen/margin_large"
+                android:maxLines="1"
+                app:layout_constraintStart_toEndOf="@+id/container_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textSize="@dimen/text_size_default"
+                android:textColor="@color/text_color_default"
+                android:text="@string/app_name" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/text_description"
+                app:layout_constraintStart_toStartOf="@id/text_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_name"
+                android:maxLines="1"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="@color/text_color_subtle"
+                android:text="@string/app_name"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/text_price"
+                android:layout_marginTop="@dimen/margin_small"
+                app:layout_constraintTop_toBottomOf="@id/text_description"
+                app:layout_constraintStart_toStartOf="@id/text_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textSize="@dimen/text_size_highlight"
+                android:textColor="@color/text_color_default"
+                android:text="@string/app_name" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>
