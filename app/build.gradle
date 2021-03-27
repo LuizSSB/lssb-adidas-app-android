@@ -1,0 +1,73 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+}
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.luizssb.adidas.confirmed"
+        minSdkVersion 16
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            buildConfigField("String", "SERVICE_URL_BASE", "\"https://my.api.mockaroo.com\"")
+            buildConfigField("String", "SERVICE_KEY_API", "\"82333f10\"")
+            buildConfigField("Long", "SERVICE_SECONDS_TIMEOUT", "10L")
+        }
+
+        debug {
+            buildConfigField("String", "SERVICE_URL_BASE", "\"https://my.api.mockaroo.com\"")
+            buildConfigField("String", "SERVICE_KEY_API", "\"82333f10\"")
+            buildConfigField("Long", "SERVICE_SECONDS_TIMEOUT", "10L")
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    implementation "com.google.android.material:material:$versions.material"
+
+    implementation "androidx.core:core-ktx:$versions.androidx.core"
+    implementation "androidx.appcompat:appcompat:$versions.androidx.appcompat"
+    implementation "androidx.constraintlayout:constraintlayout:$versions.androidx.constraintlayout"
+    implementation "androidx.recyclerview:recyclerview:$versions.androidx.recyclerview"
+    implementation "androidx.paging:paging-runtime-ktx:$versions.androidx.paging"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$versions.androidx.swiperefreshlayout"
+
+    implementation "io.insert-koin:koin-android:$versions.koin"
+
+    implementation "com.squareup.retrofit2:retrofit:$versions.retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$versions.retrofit"
+
+    implementation "com.github.bumptech.glide:glide:$versions.glide"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    annotationProcessor "com.github.bumptech.glide:compiler:$versions.glide"
+
+    testImplementation "junit:junit:$testVersions.junit"
+
+    androidTestImplementation "androidx.test.ext:junit:$androidTestVersions.junit"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidTestVersions.espresso"
+}
