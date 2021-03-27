@@ -4,6 +4,6 @@ import androidx.paging.PagingConfig
 
 class PagingConfigEx {
     companion object {
-        val DEFAULT_PAGING_CONFIG = PagingConfig(20)
+        val DEFAULT_PAGING_CONFIG = PagingConfig(pageSize = 20, initialLoadSize = 20)
     }
 }

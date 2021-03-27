@@ -8,18 +8,45 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import retrofit2.await
+import java.util.*
+import kotlin.math.min
 
 class ProductServiceImpl(private val api: RetrofitProductRESTAPI) : ProductService {
     override suspend fun getProducts(searchQuery: String?, pageRef: PageRef): PaginationResult<Product> =
             withContext(Dispatchers.IO) {
                 val products = api.getProducts().await()
 
+                        // lbaglie: there is an is an entry in the sample database that, for some
+                        // reason, has all null data. I'm assumming this is not on purpose, therefore
+                        // to avoid having to implement some extra structures to handle this single
+                        // problematic case, I just cutting it off right here.
+                        .filter {
+                            @Suppress("SENSELESS_COMPARISON")
+                            it.id !== null
+                        }
+
+                        // lbaglie: since we are faking filtering, may as well fake pagination.
+                        .run { subList(pageRef.skip, min(pageRef.upperBound, size)) }
+
+                        // lbaglie: also faking prices and names
+                        .map { it.copy(
+                                name = "${it.id} ${it.name}",
+                                price = (it.id.hashCode() / 1e6).toFloat()
+                        ) }
+
                 // lbaglie: simple check to avoid having to filter when there's no filter.
-                // lbaglie: filters on the ids, as all the products in the sample database have the
-                // same name.
-                val filtered = searchQuery?.let { query -> products.filter { it.id.contains(query) } } ?:
+                val filtered = searchQuery?.takeIf { it.isNotBlank() }
+                        ?.run { toLowerCase(Locale.getDefault()) }
+                        ?.let { query ->
+                            products.filter {
+                                // lbaglie: filters on the ids, as all the products in the sample database
+                                // have the same name.
+                                it.id.toLowerCase(Locale.getDefault()).contains(query)
+                            }
+                } ?:
                     products
-                PaginationResult(filtered, false)
+
+                PaginationResult(filtered, filtered.size >= pageRef.limit)
             }
 
     override suspend fun getProduct(productId: String): Product? = withContext(Dispatchers.IO) {
