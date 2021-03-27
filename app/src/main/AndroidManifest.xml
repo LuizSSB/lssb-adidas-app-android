@@ -11,9 +11,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_shin_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AdidasConfirmed"
+        android:theme="@style/Theme.App"
         android:name=".AppApplication">
-        <activity android:name=".view.SplashActivity" android:theme="@style/Theme.Splash">
+        <activity android:name=".view.SplashActivity" android:theme="@style/Theme.App.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

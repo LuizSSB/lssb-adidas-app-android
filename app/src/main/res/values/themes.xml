@@ -1,20 +1,28 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.AdidasConfirmed" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.App" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/main_500</item>
         <item name="colorPrimaryVariant">@color/main_700</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimary">@color/main_text_primary</item>
+
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/secondary_200</item>
         <item name="colorSecondaryVariant">@color/secondary_700</item>
         <item name="colorOnSecondary">@color/black</item>
+
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.Splash" parent="Theme.AdidasConfirmed">
+    <style name="Theme.App.Toolbar" parent="Theme.App">
+        <item name="android:textColorPrimary">@color/main_text_primary</item>\
+        <item name="android:textColorSecondary">@color/main_text_secondary</item>
+    </style>
+
+    <style name="Theme.App.Splash" parent="Theme.App">
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
 </resources>

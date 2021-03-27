@@ -1,10 +1,12 @@
 package com.luizssb.adidas.confirmed.view
 
 import android.os.Bundle
+import android.view.Menu
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import com.luizssb.adidas.confirmed.R
 import com.luizssb.adidas.confirmed.databinding.ActivityMainBinding
 import com.luizssb.adidas.confirmed.view.adapter.ProductsAdapter
 import com.luizssb.adidas.confirmed.viewmodel.product.ProductListViewModel
@@ -24,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.root)
+        setSupportActionBar(layout.toolbar)
 
         with(layout) {
             refresh.setOnRefreshListener {
@@ -43,6 +46,23 @@ class MainActivity : AppCompatActivity() {
             it.effects.observe(this, Observer(this::render))
             it.startOrResume()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.search_product, menu)
+
+//        menu?.run {
+//            findItem(R.id.)
+//        }
+//
+//        // Get the SearchView and set the searchable configuration
+//        (menu?.findItem(R.id.menu_search).actionView as SearchView).apply {
+//            // Assumes current activity is the searchable activity
+//            setSearchableInfo(searchManager.getSearchableInfo(componentName))
+//            setIconifiedByDefault(false) // Do not iconify the widget; expand it by default
+//        }
+
+        return true
     }
 
     private fun render(state: ProductListViewModel.State) {
