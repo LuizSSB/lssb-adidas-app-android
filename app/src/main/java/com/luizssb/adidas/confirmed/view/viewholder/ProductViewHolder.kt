@@ -8,11 +8,15 @@ import com.luizssb.adidas.confirmed.R
 import com.luizssb.adidas.confirmed.databinding.ItemProductBinding
 import com.luizssb.adidas.confirmed.dto.Product
 import com.luizssb.adidas.confirmed.utils.EventHandler
+import java.text.NumberFormat
+import java.util.*
 
 class ProductViewHolder(
     private val layout: ItemProductBinding,
     onSelect: EventHandler<Product>?
     ) : RecyclerView.ViewHolder(layout.root) {
+    private val numberFormatter = NumberFormat.getCurrencyInstance(Locale.getDefault())
+
     init {
         if (onSelect != null) {
             layout.containerSelection.setOnClickListener {
@@ -27,9 +31,15 @@ class ProductViewHolder(
         currentProduct = item
 
         val fixdItem = item ?: PLACEHOLDER_PRODUCT
-        layout.textName.text = fixdItem.name
+        layout.textName.text = itemView.context.getString(
+                R.string.template_products_item_name,
+                fixdItem.id,
+                fixdItem.name
+        )
         layout.textDescription.text = fixdItem.description
-        layout.textPrice.text = "R$"+fixdItem.price.toString()
+        layout.textPrice.text = numberFormatter
+                .apply { currency = Currency.getInstance(fixdItem.currency) }
+                .format(fixdItem.price)
 
         if (item == null) {
             layout.image.setImageDrawable(null)

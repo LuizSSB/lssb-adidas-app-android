@@ -28,10 +28,10 @@ class ProductServiceImpl(private val api: RetrofitProductRESTAPI) : ProductServi
                         // lbaglie: since we are faking filtering, may as well fake pagination.
                         .run { subList(pageRef.skip, min(pageRef.upperBound, size)) }
 
-                        // lbaglie: also faking prices and names
+                        // lbaglie: also faking prices and currency, which come as nil
                         .map { it.copy(
-                                name = "${it.id} ${it.name}",
-                                price = (it.id.hashCode() / 1e6).toFloat()
+                                price = (it.id.hashCode() / 1e6).toFloat(),
+                                currency = "EUR"
                         ) }
 
                 // lbaglie: simple check to avoid having to filter when there's no filter.

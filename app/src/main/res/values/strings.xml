@@ -5,4 +5,5 @@
     <string name="hint_product_search">Search products</string>
     <string name="label_products_search">Search</string>
     <string name="title_products">Adidas</string>
+    <string name="template_products_item_name">%s %s</string>
 </resources>
