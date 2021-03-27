@@ -5,6 +5,7 @@
     <color name="main_700">#0010ca</color>
     <color name="main_text_primary">#FFFFFF</color>
     <color name="main_text_secondary">#DDDDDD</color>
+    <color name="main_text_tertiary">#BBBBBB</color>
 
     <color name="secondary_200">#FF03DAC5</color>
     <color name="secondary_700">#FF018786</color>

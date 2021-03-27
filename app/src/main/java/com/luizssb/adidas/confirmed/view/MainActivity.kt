@@ -49,6 +49,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // lbaglie: the challenge's description described the app as being composed by two pages, so I am
+    // choosing to not use Android's default approach to search, which requires extra activities and
+    // a lot of other stuff, in favor of this simpler approach that is easier to implement.
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.search_product, menu)
 
@@ -56,17 +59,16 @@ class MainActivity : AppCompatActivity() {
             queryHint = getString(R.string.hint_product_search)
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    clearFocus()
                     return false
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    println("newba $newText")
+                    viewModel.handleIntent(ProductListViewModel.Intent.ChangeSearchQuery(newText))
                     return true
                 }
             })
             setOnCloseListener {
-                println("close search")
+                viewModel.handleIntent(ProductListViewModel.Intent.ChangeSearchQuery(null))
                 false
             }
         }
