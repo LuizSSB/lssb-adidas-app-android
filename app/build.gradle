@@ -27,18 +27,22 @@ android {
     }
 
     buildTypes {
+        def serviceUrlProduct = "https://localhost:3001"
+        def serviceUrlReview = "https://localhost:3002"
+        def serviceSecondsTimeout = "10L"
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
-            buildConfigField("String", "SERVICE_URL_BASE", "\"https://my.api.mockaroo.com\"")
-            buildConfigField("String", "SERVICE_KEY_API", "\"82333f10\"")
-            buildConfigField("Long", "SERVICE_SECONDS_TIMEOUT", "10L")
+            buildConfigField("String", "SERVICE_URL_PRODUCT", "\"$serviceUrlProduct\"")
+            buildConfigField("String", "SERVICE_URL_REVIEW", "\"$serviceUrlReview\"")
+            buildConfigField("Long", "SERVICE_SECONDS_TIMEOUT", serviceSecondsTimeout)
         }
 
         debug {
-            buildConfigField("String", "SERVICE_URL_BASE", "\"https://my.api.mockaroo.com\"")
-            buildConfigField("String", "SERVICE_KEY_API", "\"82333f10\"")
-            buildConfigField("Long", "SERVICE_SECONDS_TIMEOUT", "10L")
+            buildConfigField("String", "SERVICE_URL_PRODUCT", "\"$serviceUrlProduct\"")
+            buildConfigField("String", "SERVICE_URL_REVIEW", "\"$serviceUrlReview\"")
+            buildConfigField("Long", "SERVICE_SECONDS_TIMEOUT", serviceSecondsTimeout)
         }
     }
 
