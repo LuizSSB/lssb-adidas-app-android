@@ -6,27 +6,17 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-class RetrofitClientInstance {
-    companion object {
-        val retrofitClientInstance: Retrofit by lazy {
-            val httpClient = OkHttpClient.Builder()
-                .addInterceptor { chain ->
-                    chain.proceed(
-                        chain.request()
-                            .newBuilder()
-                            .addHeader("X-API-Key", BuildConfig.SERVICE_KEY_API)
-                            .build()
-                    )
-                }
+class RetrofitClientFactory(private val baseUrl: String) {
+    fun produce(): Retrofit {
+        val httpClient = OkHttpClient.Builder()
                 .readTimeout(BuildConfig.SERVICE_SECONDS_TIMEOUT, TimeUnit.SECONDS)
                 .connectTimeout(BuildConfig.SERVICE_SECONDS_TIMEOUT, TimeUnit.SECONDS)
                 .build()
 
-            Retrofit.Builder()
-                .baseUrl(BuildConfig.SERVICE_URL_BASE)
+        return Retrofit.Builder()
+                .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient)
                 .build()
-        }
     }
 }
