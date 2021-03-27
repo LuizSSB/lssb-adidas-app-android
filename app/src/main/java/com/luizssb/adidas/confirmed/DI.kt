@@ -9,11 +9,15 @@ import com.luizssb.adidas.confirmed.service.UserServiceImpl
 import com.luizssb.adidas.confirmed.service.product.ProductService
 import com.luizssb.adidas.confirmed.service.product.ProductServiceImpl
 import com.luizssb.adidas.confirmed.service.retrofit.RetrofitProductRESTAPI
+import com.luizssb.adidas.confirmed.service.retrofit.RetrofitReviewRESTAPI
+import com.luizssb.adidas.confirmed.service.review.ReviewService
+import com.luizssb.adidas.confirmed.service.review.ReviewServiceImpl
 import org.koin.dsl.module
 
 val DIModule = module {
     // services
     single<ProductService> { ProductServiceImpl(RetrofitProductRESTAPI.default) }
+    single<ReviewService> { ReviewServiceImpl(RetrofitReviewRESTAPI.default) }
 
     // repositories
     factory<UserPagingSource> { UserPagingSourceImpl(get()) }
