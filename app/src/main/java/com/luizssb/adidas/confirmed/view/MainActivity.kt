@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.luizssb.adidas.confirmed.R
@@ -51,16 +52,24 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.search_product, menu)
 
-//        menu?.run {
-//            findItem(R.id.)
-//        }
-//
-//        // Get the SearchView and set the searchable configuration
-//        (menu?.findItem(R.id.menu_search).actionView as SearchView).apply {
-//            // Assumes current activity is the searchable activity
-//            setSearchableInfo(searchManager.getSearchableInfo(componentName))
-//            setIconifiedByDefault(false) // Do not iconify the widget; expand it by default
-//        }
+        (menu?.findItem(R.id.action_search)?.actionView as? SearchView)?.run {
+            queryHint = getString(R.string.hint_product_search)
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    clearFocus()
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    println("newba $newText")
+                    return true
+                }
+            })
+            setOnCloseListener {
+                println("close search")
+                false
+            }
+        }
 
         return true
     }
