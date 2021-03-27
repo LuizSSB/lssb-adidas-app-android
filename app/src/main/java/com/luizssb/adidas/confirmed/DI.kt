@@ -1,9 +1,5 @@
 package com.luizssb.adidas.confirmed
 
-import com.luizssb.adidas.confirmed.repository.UserPagingSource
-import com.luizssb.adidas.confirmed.repository.UserPagingSourceImpl
-import com.luizssb.adidas.confirmed.repository.UserRepository
-import com.luizssb.adidas.confirmed.repository.UserRepositoryImpl
 import com.luizssb.adidas.confirmed.repository.product.ProductPagingSource
 import com.luizssb.adidas.confirmed.repository.product.ProductPagingSourceImpl
 import com.luizssb.adidas.confirmed.repository.product.ProductRepository
@@ -37,9 +33,6 @@ val DIModule = module {
     }
     factory<ReviewRepository> { params -> ReviewRepositoryImpl(get(), get(), params.get()) }
 
-    factory<UserPagingSource> { UserPagingSourceImpl(get()) }
-    single<UserRepository> { UserRepositoryImpl { get() } }
-//
-//    // view models
-//    factory<UsersViewModel> { UsersViewModelImpl(get()) }
+    // lbaglie: view models
+
 }
