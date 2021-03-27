@@ -27,8 +27,9 @@ android {
     }
 
     buildTypes {
-        def serviceUrlProduct = "https://localhost:3001"
-        def serviceUrlReview = "https://localhost:3002"
+        def serviceUrlHost = "http://192.168.0.135"
+        def serviceUrlProduct = "$serviceUrlHost:3001/"
+        def serviceUrlReview = "$serviceUrlHost:3002"
         def serviceSecondsTimeout = "10L"
 
         release {

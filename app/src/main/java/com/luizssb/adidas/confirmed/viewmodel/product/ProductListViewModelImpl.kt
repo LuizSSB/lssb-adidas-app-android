@@ -25,7 +25,7 @@ class ProductListViewModelImpl(
     override fun handleIntent(intent: Intent) {
         when(intent) {
             is Intent.ChangeLoadState -> handleLoadStateChange(intent.state)
-            Intent.Refresh -> { }
+            Intent.Refresh -> effects.value = Effect.Refresh
             is Intent.Select -> {
                // TODO lbaglie: navigate to product page
             }

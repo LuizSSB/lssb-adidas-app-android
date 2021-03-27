@@ -27,7 +27,7 @@ val DIModule = module {
 
     // lbaglie: repositores - product
     factory<ProductPagingSource> { ProductPagingSourceImpl(get()) }
-    single<ProductRepository> { ProductRepositoryImpl(get(), get()) }
+    single<ProductRepository> { ProductRepositoryImpl({ get() }, get()) }
 
     // lbaglie: repositories - review
     factory<(String) -> ReviewPagingSource> {
