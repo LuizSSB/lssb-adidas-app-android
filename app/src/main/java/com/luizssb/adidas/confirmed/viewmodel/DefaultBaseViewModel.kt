@@ -14,7 +14,7 @@ abstract class DefaultBaseViewModel<TStateModel, TEffects, TIntent>(defaultValue
     final override val effects = MutableLiveData<TEffects>()
 
     init {
-        // lbaglie: weird, a force unwrap should not be necessary here.
+        // luizssb: weird, a force unwrap should not be necessary here.
         _state.value = defaultValue!!
     }
 
@@ -32,7 +32,9 @@ abstract class DefaultBaseViewModel<TStateModel, TEffects, TIntent>(defaultValue
 
     protected abstract fun start()
 
-    protected fun setState(makeNewState: TStateModel.() -> TStateModel) {
-        _state.value = stateValue.makeNewState()
+    protected fun setState(forceUpdate: Boolean = true, makeNewState: TStateModel.() -> TStateModel) {
+        stateValue.makeNewState()
+                .takeIf { forceUpdate || it != stateValue }
+                .let { _state.value = it }
     }
 }

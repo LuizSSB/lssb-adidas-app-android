@@ -43,7 +43,7 @@ class ProductListViewModelImpl(
             Intent.Refresh -> effects.value = Effect.Refresh
 
             is Intent.Select -> {
-               // TODO lbaglie: navigate to product page
+               // TODO luizssb: navigate to product page
                 println(intent.product)
             }
         }
@@ -54,13 +54,10 @@ class ProductListViewModelImpl(
             effects.value = Effect.ShowError(it)
         }
 
-        stateValue
-            .copy(
+        setState(forceUpdate = false) { copy(
                 loadingRefresh = loadStates.refresh.loading,
                 loadingPrevious = loadStates.prepend.loading,
                 loadingMore = loadStates.append.loading
-            )
-            .takeIf { it != stateValue }
-            ?.let { setState { it } }
+        ) }
     }
 }

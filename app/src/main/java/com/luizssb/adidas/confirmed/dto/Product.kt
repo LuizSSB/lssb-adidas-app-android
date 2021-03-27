@@ -7,6 +7,6 @@ data class Product(
         val imgUrl: String,
         val price: Float,
         val currency: String
-        // lbaglie: although reviews are returned by the API, let us assume they do not,
+        // luizssb: although reviews are returned by the API, let us assume they do not,
         // so as to imagine a more performant data exchange.
 )

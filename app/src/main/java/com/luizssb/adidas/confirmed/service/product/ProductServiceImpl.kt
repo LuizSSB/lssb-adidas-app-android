@@ -16,7 +16,7 @@ class ProductServiceImpl(private val api: RetrofitProductRESTAPI) : ProductServi
             withContext(Dispatchers.IO) {
                 val products = api.getProducts().await()
 
-                        // lbaglie: there is an is an entry in the sample database that, for some
+                        // luizssb: there is an is an entry in the sample database that, for some
                         // reason, has all null data. I'm assumming this is not on purpose, therefore
                         // to avoid having to implement some extra structures to handle this single
                         // problematic case, I just cutting it off right here.
@@ -25,21 +25,21 @@ class ProductServiceImpl(private val api: RetrofitProductRESTAPI) : ProductServi
                             it.id !== null
                         }
 
-                        // lbaglie: since we are faking filtering, may as well fake pagination.
+                        // luizssb: since we are faking filtering, may as well fake pagination.
                         .run { subList(pageRef.skip, min(pageRef.upperBound, size)) }
 
-                        // lbaglie: also faking prices and currency, which come as nil
+                        // luizssb: also faking prices and currency, which come as nil
                         .map { it.copy(
                                 price = (it.id.hashCode() / 1e6).toFloat(),
                                 currency = "EUR"
                         ) }
 
-                // lbaglie: simple check to avoid having to filter when there's no filter.
+                // luizssb: simple check to avoid having to filter when there's no filter.
                 val filtered = searchQuery?.takeIf { it.isNotBlank() }
                         ?.run { toLowerCase(Locale.getDefault()) }
                         ?.let { query ->
                             products.filter {
-                                // lbaglie: filters on the ids, as all the products in the sample database
+                                // luizssb: filters on the ids, as all the products in the sample database
                                 // have the same name.
                                 it.id.toLowerCase(Locale.getDefault()).contains(query)
                             }

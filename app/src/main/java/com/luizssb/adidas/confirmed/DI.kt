@@ -19,20 +19,20 @@ import com.luizssb.adidas.confirmed.viewmodel.product.ProductListViewModelImpl
 import org.koin.dsl.module
 
 val DIModule = module {
-    // lbaglie: services
+    // luizssb: services
     single<ProductService> { ProductServiceImpl(RetrofitProductRESTAPI.default) }
     single<ReviewService> { ReviewServiceImpl(RetrofitReviewRESTAPI.default) }
 
-    // lbaglie: repositories
+    // luizssb: repositories
 
-    // lbaglie: repositores - product
+    // luizssb: repositores - product
     factory<ProductPagingSource.Factory>{ ProductPagingSourceImpl.Factory(get()) }
     single<ProductRepository> { ProductRepositoryImpl(get(), get()) }
 
-    // lbaglie: repositories - review
+    // luizssb: repositories - review
     factory<ReviewPagingSource.Factory> { ReviewPagingSourceImpl.Factory(get()) }
     factory<ReviewRepository> { params -> ReviewRepositoryImpl(get(), get(), params.get()) }
 
-    // lbaglie: view models
+    // luizssb: view models
     factory<ProductListViewModel> { ProductListViewModelImpl(get()) }
 }

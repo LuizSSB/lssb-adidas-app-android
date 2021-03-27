@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // lbaglie: the challenge's description described the app as being composed by two pages, so I am
+    // luizssb: the challenge's description described the app as being composed by two pages, so I am
     // choosing to not use Android's default approach to search, which requires extra activities and
     // a lot of other stuff, in favor of this simpler approach that is easier to implement.
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         when(effect) {
             ProductListViewModel.Effect.Refresh -> itemAdapter.refresh()
             is ProductListViewModel.Effect.ShowError ->
-                // TODO lbaglie: replace with snackbar
+                // TODO luizssb: replace with snackbar
                 Toast.makeText(this, effect.error.message, Toast.LENGTH_SHORT).show()
         }
     }

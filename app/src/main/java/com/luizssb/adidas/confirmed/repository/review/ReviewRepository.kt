@@ -6,7 +6,7 @@ import com.luizssb.adidas.confirmed.dto.Review
 import kotlinx.coroutines.flow.Flow
 
 interface ReviewRepository {
-    // lbaglie: not used; here to indicate to implementations that they must be unique to a product
+    // luizssb: not used; here to indicate to implementations that they must be unique to a product
     val productId: String
 
     fun reviews(): Flow<PagingData<Review>>
