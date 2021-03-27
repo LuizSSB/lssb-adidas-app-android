@@ -1,0 +1,34 @@
+package com.luizssb.adidas.confirmed.viewmodel.product
+
+import androidx.paging.PagingData
+import com.luizssb.adidas.confirmed.dto.Product
+import com.luizssb.adidas.confirmed.viewmodel.DefaultBaseViewModel
+
+abstract class ProductListViewModel
+    : DefaultBaseViewModel<
+        ProductListViewModel.State,
+        ProductListViewModel.Effect,
+        ProductListViewModel.Intent
+        >(State()) {
+
+    data class State(
+        val products: PagingData<Product> = PagingData.empty(),
+        val loadingMore: Boolean = false,
+        val loadingRefresh: Boolean = false
+    )
+
+    interface Effect {
+        data class ShowError(val error: Throwable) : Effect
+        object Refresh : Effect
+    }
+
+    interface Intent {
+        object StartedLoadingFirsts : Intent
+        object StartedLoadingNext : Intent
+        object StartedLoadingPrevious : Intent
+        object FinishedLoading : Intent
+        data class FailedToLoad(val error: Throwable) : Intent
+        object Refresh : Intent
+        data class Select(val product: Product) : Intent
+    }
+}
