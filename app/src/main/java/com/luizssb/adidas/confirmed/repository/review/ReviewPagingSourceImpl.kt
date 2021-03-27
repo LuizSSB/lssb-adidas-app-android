@@ -6,8 +6,8 @@ import com.luizssb.adidas.confirmed.repository.paging.DefaultPagingSourceImpl
 import com.luizssb.adidas.confirmed.service.review.ReviewService
 
 class ReviewPagingSourceImpl(
-    private val service: ReviewService,
-    private val productId: String
+        private val service: ReviewService,
+        private val productId: String
 ) : ReviewPagingSource() {
     private val inner by lazy {
         DefaultPagingSourceImpl { service.getReviews(productId, it) }
@@ -18,7 +18,7 @@ class ReviewPagingSourceImpl(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Review> =
         inner.load(params)
 
-    class Factory(private val service: ReviewService) {
-        fun produce(productId: String) = ReviewPagingSourceImpl(service, productId)
+    class Factory(private val service: ReviewService) : ReviewPagingSource.Factory {
+        override fun invoke(productId: String) = ReviewPagingSourceImpl(service, productId)
     }
 }
