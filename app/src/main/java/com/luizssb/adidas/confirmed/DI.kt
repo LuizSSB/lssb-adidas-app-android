@@ -8,6 +8,10 @@ import com.luizssb.adidas.confirmed.repository.product.ProductPagingSource
 import com.luizssb.adidas.confirmed.repository.product.ProductPagingSourceImpl
 import com.luizssb.adidas.confirmed.repository.product.ProductRepository
 import com.luizssb.adidas.confirmed.repository.product.ProductRepositoryImpl
+import com.luizssb.adidas.confirmed.repository.review.ReviewPagingSource
+import com.luizssb.adidas.confirmed.repository.review.ReviewPagingSourceImpl
+import com.luizssb.adidas.confirmed.repository.review.ReviewRepository
+import com.luizssb.adidas.confirmed.repository.review.ReviewRepositoryImpl
 import com.luizssb.adidas.confirmed.service.product.ProductService
 import com.luizssb.adidas.confirmed.service.product.ProductServiceImpl
 import com.luizssb.adidas.confirmed.service.retrofit.RetrofitProductRESTAPI
@@ -17,13 +21,21 @@ import com.luizssb.adidas.confirmed.service.review.ReviewServiceImpl
 import org.koin.dsl.module
 
 val DIModule = module {
-    // services
+    // lbaglie: services
     single<ProductService> { ProductServiceImpl(RetrofitProductRESTAPI.default) }
     single<ReviewService> { ReviewServiceImpl(RetrofitReviewRESTAPI.default) }
 
-    // repositories
+    // lbaglie: repositories
+
+    // lbaglie: repositores - product
     factory<ProductPagingSource> { ProductPagingSourceImpl(get()) }
     single<ProductRepository> { ProductRepositoryImpl(get(), get()) }
+
+    // lbaglie: repositories - review
+    factory<(String) -> ReviewPagingSource> {
+        ReviewPagingSourceImpl.Factory(get())::produce
+    }
+    factory<ReviewRepository> { params -> ReviewRepositoryImpl(get(), get(), params.get()) }
 
     factory<UserPagingSource> { UserPagingSourceImpl(get()) }
     single<UserRepository> { UserRepositoryImpl { get() } }
