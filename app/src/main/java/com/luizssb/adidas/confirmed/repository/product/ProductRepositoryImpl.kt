@@ -8,7 +8,7 @@ import com.luizssb.adidas.confirmed.service.product.ProductService
 import kotlinx.coroutines.flow.Flow
 
 class ProductRepositoryImpl(
-    private val pagingSourceFactory: (String?) -> ProductPagingSource,
+    private val pagingSourceFactory: ProductPagingSource.Factory,
     private val service: ProductService
 ) : ProductRepository {
     override fun products(searchQuery: String?): Flow<PagingData<Product>> {

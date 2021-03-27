@@ -8,7 +8,7 @@ import com.luizssb.adidas.confirmed.service.review.ReviewService
 import kotlinx.coroutines.flow.Flow
 
 class ReviewRepositoryImpl(
-    private val pagingSourceFactory: (String) -> ReviewPagingSource,
+    private val pagingSourceFactory: ReviewPagingSource.Factory,
     private val service: ReviewService,
     override val productId: String
 ) : ReviewRepository {

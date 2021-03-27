@@ -7,8 +7,8 @@ import com.luizssb.adidas.confirmed.service.product.ProductService
 
 class ProductPagingSourceImpl(
         private val service: ProductService,
-        searchQuery: String?
-) : ProductPagingSource(searchQuery) {
+        private val searchQuery: String?
+) : ProductPagingSource() {
     private val inner by lazy {
         DefaultPagingSourceImpl { service.getProducts(searchQuery, it) }
     }
@@ -18,9 +18,7 @@ class ProductPagingSourceImpl(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Product> =
         inner.load(params)
 
-    class Factory(private val service: ProductService) {
-        fun produce(searchQuery: String?): ProductPagingSourceImpl {
-            return ProductPagingSourceImpl(service, searchQuery)
-        }
+    class Factory(private val service: ProductService) : ProductPagingSource.Factory {
+        override fun invoke(searchQuery: String?) = ProductPagingSourceImpl(service, searchQuery)
     }
 }

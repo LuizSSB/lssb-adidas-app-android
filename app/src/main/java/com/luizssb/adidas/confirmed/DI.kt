@@ -26,15 +26,11 @@ val DIModule = module {
     // lbaglie: repositories
 
     // lbaglie: repositores - product
-    factory<(String) -> ProductPagingSource>{
-        ProductPagingSourceImpl.Factory(get())::produce
-    }
-    single<ProductRepository> { ProductRepositoryImpl({ get() }, get()) }
+    factory<ProductPagingSource.Factory>{ ProductPagingSourceImpl.Factory(get()) }
+    single<ProductRepository> { ProductRepositoryImpl(get(), get()) }
 
     // lbaglie: repositories - review
-    factory<(String) -> ReviewPagingSource> {
-        ReviewPagingSourceImpl.Factory(get())::produce
-    }
+    factory<ReviewPagingSource.Factory> { ReviewPagingSourceImpl.Factory(get()) }
     factory<ReviewRepository> { params -> ReviewRepositoryImpl(get(), get(), params.get()) }
 
     // lbaglie: view models
