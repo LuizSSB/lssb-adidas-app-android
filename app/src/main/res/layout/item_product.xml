@@ -8,7 +8,11 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/container_selection"
         android:layout_gravity="center"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
         app:cardUseCompatPadding="true"
         app:cardElevation="@dimen/card_elevation_default"
         app:cardCornerRadius="@dimen/card_corner_radius_default">

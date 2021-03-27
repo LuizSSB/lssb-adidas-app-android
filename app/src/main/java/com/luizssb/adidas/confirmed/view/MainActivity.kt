@@ -15,7 +15,9 @@ import org.koin.android.ext.android.inject
 class MainActivity : AppCompatActivity() {
     private val layout by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
-    private val itemAdapter by lazy { ProductsAdapter() }
+    private val itemAdapter by lazy {
+        ProductsAdapter { viewModel.handleIntent(ProductListViewModel.Intent.Select(it)) }
+    }
 
     private val viewModel by inject<ProductListViewModel>()
 

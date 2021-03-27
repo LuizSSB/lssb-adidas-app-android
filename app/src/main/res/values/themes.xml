@@ -14,7 +14,6 @@
         <!-- Customize your theme here. -->
     </style>
 
-
     <style name="Theme.Splash" parent="Theme.AdidasConfirmed">
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
