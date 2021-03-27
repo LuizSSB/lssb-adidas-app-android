@@ -14,19 +14,21 @@ abstract class ProductListViewModel
 
     data class State(
         val products: PagingData<Product> = PagingData.empty(),
+        val searchQuery: String? = null,
         val loadingPrevious: Boolean = false,
         val loadingMore: Boolean = false,
         val loadingRefresh: Boolean = false
     )
 
-    interface Effect {
-        data class ShowError(val error: Throwable) : Effect
-        object Refresh : Effect
+    abstract class Effect private constructor () {
+        data class ShowError(val error: Throwable) : Effect()
+        object Refresh : Effect()
     }
 
-    interface Intent {
-        data class ChangeLoadState(val state: CombinedLoadStates) : Intent
-        object Refresh : Intent
-        data class Select(val product: Product) : Intent
+    abstract class Intent private constructor () {
+        data class ChangeSearchQuery(val to: String?) : Intent()
+        data class ChangeLoadState(val state: CombinedLoadStates) : Intent()
+        object Refresh : Intent()
+        data class Select(val product: Product) : Intent()
     }
 }
