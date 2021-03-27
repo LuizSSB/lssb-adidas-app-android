@@ -5,7 +5,7 @@ import com.luizssb.adidas.confirmed.dto.Product
 import kotlinx.coroutines.flow.Flow
 
 interface ProductRepository {
-    fun products(): Flow<PagingData<Product>>
+    fun products(searchQuery: String?): Flow<PagingData<Product>>
 
     suspend fun getProduct(productId: String): Product?
 }
