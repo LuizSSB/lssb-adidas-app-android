@@ -15,4 +15,6 @@
 
     <color name="text_color_default">#000000</color>
     <color name="text_color_subtle">#AAAAAA</color>
+
+    <color name="background_product_header">#ededed</color>
 </resources>

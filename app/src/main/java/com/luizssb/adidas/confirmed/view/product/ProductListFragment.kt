@@ -3,7 +3,6 @@ package com.luizssb.adidas.confirmed.view.product
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -13,7 +12,6 @@ import androidx.navigation.fragment.NavHostFragment
 import com.luizssb.adidas.confirmed.R
 import com.luizssb.adidas.confirmed.databinding.FragmentProductListBinding
 import com.luizssb.adidas.confirmed.utils.extensions.FlowEx.Companion.observeOnLifecycle
-import com.luizssb.adidas.confirmed.utils.extensions.FragmentEx.Companion.setSupportActionBar
 import com.luizssb.adidas.confirmed.view.adapter.ProductsAdapter
 import com.luizssb.adidas.confirmed.viewmodel.product.ProductList
 import kotlinx.coroutines.flow.collectLatest
@@ -61,8 +59,8 @@ class ProductListFragment : Fragment() {
         }
 
         viewModel.let {
-            it.state.observe(viewLifecycleOwner, Observer(this::render))
-            it.effects.observeOnLifecycle(viewLifecycleOwner, this::render)
+            it.state.observe(viewLifecycleOwner, Observer(::render))
+            it.effects.observeOnLifecycle(viewLifecycleOwner, ::render)
         }
 
         return layout.root
