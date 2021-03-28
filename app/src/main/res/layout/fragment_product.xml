@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MainActivity">
+    tools:context=".viewcontroller.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
             app:toolbarId="@id/toolbar"
             app:titleEnabled="false">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_collapseMode="parallax"
@@ -33,14 +33,30 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:id="@+id/image_header"
-                    android:src="@mipmap/ic_launcher_desaturated"/>
+                    android:src="@mipmap/ic_launcher_desaturated"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/text_description" />
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/text_price"
+                    android:padding="@dimen/margin_default"
+                    android:textSize="@dimen/text_size_default"
+                    app:layout_constraintTop_toTopOf="@id/text_description"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:text="@string/app_name" />
+                <TextView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/text_description"
                     android:padding="@dimen/margin_default"
+                    android:lines="2"
+                    android:gravity="center_vertical"
+                    app:layout_constraintLeft_toRightOf="@+id/text_price"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     android:text="@string/app_name" />
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
@@ -52,18 +68,26 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/list_reviews"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/refresh_reviews">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:id="@+id/list_reviews" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_add_review"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_default"
-        app:layout_anchor="@id/list_reviews"
+        app:layout_anchor="@id/refresh_reviews"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_write"
         android:contentDescription="@string/description_product_add_review"/>

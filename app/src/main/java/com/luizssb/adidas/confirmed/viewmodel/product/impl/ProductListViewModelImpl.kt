@@ -1,4 +1,4 @@
-package com.luizssb.adidas.confirmed.viewmodel.product
+package com.luizssb.adidas.confirmed.viewmodel.product.impl
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
@@ -6,6 +6,7 @@ import androidx.paging.cachedIn
 import com.luizssb.adidas.confirmed.repository.product.ProductRepository
 import com.luizssb.adidas.confirmed.utils.extensions.CombinedLoadStatesEx.Companion.error
 import com.luizssb.adidas.confirmed.utils.extensions.LoadStateEx.Companion.loading
+import com.luizssb.adidas.confirmed.viewmodel.product.ProductList
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.takeWhile
 import kotlinx.coroutines.launch

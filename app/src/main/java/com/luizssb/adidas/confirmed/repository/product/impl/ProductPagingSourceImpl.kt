@@ -1,8 +1,9 @@
-package com.luizssb.adidas.confirmed.repository.product
+package com.luizssb.adidas.confirmed.repository.product.impl
 
 import androidx.paging.PagingState
 import com.luizssb.adidas.confirmed.dto.Product
 import com.luizssb.adidas.confirmed.repository.paging.DefaultPagingSourceImpl
+import com.luizssb.adidas.confirmed.repository.product.ProductPagingSource
 import com.luizssb.adidas.confirmed.service.product.ProductService
 
 class ProductPagingSourceImpl(

@@ -17,4 +17,5 @@
     <color name="text_color_subtle">#AAAAAA</color>
 
     <color name="background_product_header">#ededed</color>
+    <color name="separator_default">#DDDDDD</color>
 </resources>

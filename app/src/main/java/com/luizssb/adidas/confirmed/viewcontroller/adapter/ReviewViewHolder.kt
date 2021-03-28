@@ -1,21 +1,23 @@
-package com.luizssb.adidas.confirmed.view.adapter
+package com.luizssb.adidas.confirmed.viewcontroller.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.luizssb.adidas.confirmed.R
-import com.luizssb.adidas.confirmed.databinding.ItemProductBinding
 import com.luizssb.adidas.confirmed.databinding.ItemReviewBinding
-import com.luizssb.adidas.confirmed.dto.Product
+import com.luizssb.adidas.confirmed.dto.Rating
 import com.luizssb.adidas.confirmed.dto.Review
-import com.luizssb.adidas.confirmed.utils.EventHandler
-import java.util.*
 
 class ReviewViewHolder(private val layout: ItemReviewBinding) : RecyclerView.ViewHolder(layout.root) {
-    private var currentReview: Review? = null
-
     fun bind(item: Review?) {
+        val fixdItem = item ?: Review.NIL
+
+        with(layout) {
+            rating.rating = fixdItem.rating.value.toFloat()
+            textLocation.text = fixdItem.locale?.displayCountry ?:
+                layout.root.context.getString(R.string.label_locale_unknown)
+            textText.text = fixdItem.text
+        }
     }
 
     companion object {
@@ -23,6 +25,10 @@ class ReviewViewHolder(private val layout: ItemReviewBinding) : RecyclerView.Vie
             val layout = ItemReviewBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
             )
+                    .apply {
+                        rating.max = Rating.MAX.value
+                        rating.numStars = Rating.MAX.value
+                    }
             return ReviewViewHolder(layout)
         }
     }

@@ -1,4 +1,4 @@
-package com.luizssb.adidas.confirmed.view.adapter
+package com.luizssb.adidas.confirmed.viewcontroller.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,15 +8,11 @@ import com.luizssb.adidas.confirmed.dto.Product
 import com.luizssb.adidas.confirmed.utils.EventHandler
 import com.luizssb.adidas.confirmed.utils.extensions.ImageViewEx.Companion.setRemoteImage
 import com.luizssb.adidas.confirmed.utils.extensions.ProductEx.Companion.getCompleteName
-import java.text.NumberFormat
-import java.util.*
 
 class ProductViewHolder(
     private val layout: ItemProductBinding,
     onSelect: EventHandler<Product>?
     ) : RecyclerView.ViewHolder(layout.root) {
-    private val numberFormatter = NumberFormat.getCurrencyInstance(Locale.getDefault())
-
     init {
         if (onSelect != null) {
             layout.containerSelection.setOnClickListener {
@@ -35,9 +31,7 @@ class ProductViewHolder(
         with (layout) {
             textName.text = fixdItem.getCompleteName(root.context)
             textDescription.text = fixdItem.description
-            textPrice.text = numberFormatter
-                    .apply { currency = Currency.getInstance(fixdItem.currency) }
-                    .format(fixdItem.price)
+            textPrice.text = fixdItem.priceString
 
             if (item == null) {
                 image.setImageDrawable(null)

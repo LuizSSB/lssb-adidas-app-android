@@ -1,7 +1,8 @@
-package com.luizssb.adidas.confirmed.service.product
+package com.luizssb.adidas.confirmed.service.product.impl
 
 import com.luizssb.adidas.confirmed.dto.Product
 import com.luizssb.adidas.confirmed.service.PaginationResult
+import com.luizssb.adidas.confirmed.service.product.ProductService
 import com.luizssb.adidas.confirmed.service.retrofit.RetrofitProductRESTAPI
 import com.luizssb.adidas.confirmed.utils.PageRef
 import kotlinx.coroutines.Dispatchers

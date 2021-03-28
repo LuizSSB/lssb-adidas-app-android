@@ -13,4 +13,5 @@
 
     <dimen name="size_product_image">150dp</dimen>
     <dimen name="size_product_header">250dp</dimen>
+    <dimen name="size_separator_default">1dp</dimen>
 </resources>

@@ -1,7 +1,8 @@
-package com.luizssb.adidas.confirmed.viewmodel.product
+package com.luizssb.adidas.confirmed.viewmodel.product.impl
 
 import androidx.lifecycle.viewModelScope
 import com.luizssb.adidas.confirmed.repository.product.ProductRepository
+import com.luizssb.adidas.confirmed.viewmodel.product.ProductDetail
 import kotlinx.coroutines.launch
 
 class ProductDetailViewModelImpl(

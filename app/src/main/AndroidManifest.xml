@@ -13,13 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App"
         android:name=".AppApplication">
-        <activity android:name=".view.SplashActivity" android:theme="@style/Theme.App.Splash">
+        <activity android:name=".viewcontroller.SplashActivity" android:theme="@style/Theme.App.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.MainActivity" />
+        <activity android:name=".viewcontroller.MainActivity" />
     </application>
 
 </manifest>

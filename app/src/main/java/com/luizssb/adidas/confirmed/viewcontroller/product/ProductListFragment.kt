@@ -1,4 +1,4 @@
-package com.luizssb.adidas.confirmed.view.product
+package com.luizssb.adidas.confirmed.viewcontroller.product
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,7 +14,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.luizssb.adidas.confirmed.R
 import com.luizssb.adidas.confirmed.databinding.FragmentProductListBinding
 import com.luizssb.adidas.confirmed.utils.extensions.FlowEx.Companion.observeOnLifecycle
-import com.luizssb.adidas.confirmed.view.adapter.ProductsAdapter
+import com.luizssb.adidas.confirmed.viewcontroller.adapter.ProductsAdapter
 import com.luizssb.adidas.confirmed.viewmodel.product.ProductList
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
