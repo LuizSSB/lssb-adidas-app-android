@@ -7,4 +7,8 @@ data class Review(
         val locale: String, // TODO luizssb: change to Locale object
         val rating: Int, // TODO luizssb: change to enum?
         val text: String
-) : Serializable
+) : Serializable {
+    companion object {
+        val NIL = Review("", "", 0, "text")
+    }
+}
