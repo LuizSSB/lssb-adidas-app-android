@@ -1,7 +1,9 @@
 package com.luizssb.adidas.confirmed.view.product
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
@@ -50,13 +52,12 @@ class ProductListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         layout = FragmentProductListBinding.inflate(inflater, container, false)
+                .apply {
+                    configureMenu(toolbar)
 
-        with(layout) {
-            configureMenu(toolbar)
-
-            refresh.setOnRefreshListener { viewModel.handleIntent(ProductList.Intent.Refresh) }
-            list.adapter = itemAdapter
-        }
+                    refresh.setOnRefreshListener { viewModel.handleIntent(ProductList.Intent.Refresh) }
+                    list.adapter = itemAdapter
+                }
 
         viewModel.let {
             it.state.observe(viewLifecycleOwner, Observer(::render))

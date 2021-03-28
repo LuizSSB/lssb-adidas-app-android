@@ -10,6 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.luizssb.adidas.confirmed.databinding.FragmentProductBinding
 import com.luizssb.adidas.confirmed.utils.extensions.FlowEx.Companion.observeOnLifecycle
+import com.luizssb.adidas.confirmed.utils.extensions.FragmentEx.Companion.enableActionBarBackButton
+import com.luizssb.adidas.confirmed.utils.extensions.FragmentEx.Companion.setSupportActionBar
 import com.luizssb.adidas.confirmed.utils.extensions.ImageViewEx.Companion.setRemoteImage
 import com.luizssb.adidas.confirmed.utils.extensions.ProductEx.Companion.getCompleteName
 import com.luizssb.adidas.confirmed.view.adapter.ReviewsAdapter
@@ -21,7 +23,7 @@ class ProductFragment : Fragment() {
     private val args: ProductFragmentArgs by navArgs()
 
     private val detailViewModel: ProductDetail.ViewModel by viewModel {
-        DefinitionParameters(listOf("FI444"))
+        DefinitionParameters(listOf(args.productId))
     }
 
     private lateinit var layout: FragmentProductBinding
@@ -40,6 +42,11 @@ class ProductFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         layout = FragmentProductBinding.inflate(inflater, container, false)
+                .apply {
+                    setSupportActionBar(toolbar)
+                    enableActionBarBackButton()
+                    buttonAddReview.setOnClickListener {  }
+                }
 
         with(detailViewModel) {
             state.observe(viewLifecycleOwner, Observer(::render))
