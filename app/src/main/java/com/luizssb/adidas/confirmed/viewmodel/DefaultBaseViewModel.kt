@@ -7,15 +7,16 @@ import androidx.lifecycle.ViewModel
 abstract class DefaultBaseViewModel<TStateModel, TEffects, TIntent>(defaultValue: TStateModel)
     : ViewModel(), BaseViewModel<TStateModel, TEffects, TIntent> {
     private val _state = MutableLiveData<TStateModel>()
-    override val state: LiveData<TStateModel> get() = _state
+    final override val state: LiveData<TStateModel> get() = _state
 
     val stateValue get() = state.value!!
 
-    final override val effects = MutableLiveData<TEffects>()
+    private val _effects = MutableLiveData<TEffects>()
+    final override val effects: LiveData<TEffects> = _effects
 
     init {
         // luizssb: weird, a force unwrap should not be necessary here - prolly a bug in the IDE.
-        _state.value = defaultValue!!
+        _state.value = defaultValue
     }
 
     private var started = false
@@ -37,5 +38,9 @@ abstract class DefaultBaseViewModel<TStateModel, TEffects, TIntent>(defaultValue
         if (forceUpdate || newState != stateValue) {
             _state.value = newState
         }
+    }
+
+    protected fun setEffect(effect: TEffects) {
+        _effects.value = effect
     }
 }

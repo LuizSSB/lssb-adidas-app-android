@@ -7,6 +7,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.NavHostFragment
 import com.luizssb.adidas.confirmed.databinding.FragmentProductListBinding
 import com.luizssb.adidas.confirmed.view.adapter.ProductsAdapter
 import com.luizssb.adidas.confirmed.viewmodel.product.ProductListViewModel
@@ -22,6 +23,11 @@ class ProductListFragment : Fragment() {
     }
 
     private val viewModel by inject<ProductListViewModel>()
+
+    private val navController by lazy {
+        val navHostFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.fragment_navhost)
+        (navHostFragment  as NavHostFragment).navController
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,9 +102,17 @@ class ProductListFragment : Fragment() {
     private fun render(effect: ProductListViewModel.Effect) {
         when(effect) {
             ProductListViewModel.Effect.Refresh -> itemAdapter.refresh()
+
             is ProductListViewModel.Effect.ShowError ->
                 // TODO luizssb: replace with snackbar
                 Toast.makeText(requireContext(), effect.error.message, Toast.LENGTH_SHORT).show()
+
+            is ProductListViewModel.Effect.OpenProduct -> {
+                val action = ProductListFragmentDirections.actionProductListFragmentToProductFragment(
+                        effect.product.id
+                )
+                navController.navigate(action)
+            }
         }
     }
 }

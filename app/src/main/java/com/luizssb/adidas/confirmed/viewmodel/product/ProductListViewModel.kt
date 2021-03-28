@@ -23,6 +23,7 @@ abstract class ProductListViewModel
     abstract class Effect private constructor () {
         data class ShowError(val error: Throwable) : Effect()
         object Refresh : Effect()
+        data class OpenProduct(val product: Product) : Effect()
     }
 
     abstract class Intent private constructor () {

@@ -40,18 +40,15 @@ class ProductListViewModelImpl(
 
             is Intent.ChangeLoadState -> handleLoadStateChange(intent.state)
 
-            Intent.Refresh -> effects.value = Effect.Refresh
+            Intent.Refresh -> setEffect(Effect.Refresh)
 
-            is Intent.Select -> {
-               // TODO luizssb: navigate to product page
-                println(intent.product)
-            }
+            is Intent.Select -> setEffect(Effect.OpenProduct(intent.product))
         }
     }
 
     private fun handleLoadStateChange(loadStates: CombinedLoadStates) {
         loadStates.error?.let {
-            effects.value = Effect.ShowError(it)
+            setEffect(Effect.ShowError(it))
         }
 
         setState(forceUpdate = false) { copy(
