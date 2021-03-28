@@ -3,7 +3,6 @@ package com.luizssb.adidas.confirmed.service.review.impl
 import com.luizssb.adidas.confirmed.dto.Review
 import com.luizssb.adidas.confirmed.service.PaginationResult
 import com.luizssb.adidas.confirmed.service.retrofit.RetrofitReviewRESTAPI
-import com.luizssb.adidas.confirmed.service.retrofit.dto.RemoteReview
 import com.luizssb.adidas.confirmed.service.retrofit.dto.RemoteReview.Companion.toRemoteType
 import com.luizssb.adidas.confirmed.service.review.ReviewService
 import com.luizssb.adidas.confirmed.utils.PageRef

@@ -10,7 +10,7 @@ abstract class ReviewList private constructor() {
             val reviews: PagingData<Review> = PagingData.empty(),
             val loadingPrevious: Boolean = false,
             val loadingMore: Boolean = false,
-            val loadingRefresh: Boolean = false
+            val loadingRefresh: Boolean = false,
     )
 
     abstract class Effect private constructor() {

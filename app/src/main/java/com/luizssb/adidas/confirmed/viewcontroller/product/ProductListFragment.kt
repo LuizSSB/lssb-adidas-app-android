@@ -13,8 +13,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import com.luizssb.adidas.confirmed.R
 import com.luizssb.adidas.confirmed.databinding.FragmentProductListBinding
+import com.luizssb.adidas.confirmed.dto.Product
 import com.luizssb.adidas.confirmed.utils.extensions.FlowEx.Companion.observeOnLifecycle
 import com.luizssb.adidas.confirmed.viewcontroller.adapter.ProductsAdapter
+import com.luizssb.adidas.confirmed.viewmodel.ListController
 import com.luizssb.adidas.confirmed.viewmodel.product.ProductList
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -39,7 +41,7 @@ class ProductListFragment : Fragment() {
 
         lifecycleScope.launch {
             itemAdapter.loadStateFlow.collectLatest {
-                viewModel.handleIntent(ProductList.Intent.ChangeLoadState(it))
+                viewModel.listController.handleIntent(ListController.Intent.ChangeLoadState(it))
             }
         }
 
@@ -55,11 +57,16 @@ class ProductListFragment : Fragment() {
                 .apply {
                     configureMenu(toolbar)
 
-                    refresh.setOnRefreshListener { viewModel.handleIntent(ProductList.Intent.Refresh) }
+                    refresh.setOnRefreshListener { viewModel.listController.handleIntent(ListController.Intent.Refresh) }
                     list.adapter = itemAdapter
                 }
 
         viewModel.let {
+            it.state.observe(viewLifecycleOwner, Observer(::render))
+            it.effects.observeOnLifecycle(viewLifecycleOwner, ::render)
+        }
+
+        viewModel.listController.let {
             it.state.observe(viewLifecycleOwner, Observer(::render))
             it.effects.observeOnLifecycle(viewLifecycleOwner, ::render)
         }
@@ -92,26 +99,40 @@ class ProductListFragment : Fragment() {
     }
 
     private fun render(state: ProductList.State) {
-        layout.refresh.isRefreshing = state.loadingRefresh
-        lifecycleScope.launch {
-            itemAdapter.submitData(state.products)
-        }
     }
 
     private fun render(effect: ProductList.Effect) {
         when(effect) {
-            ProductList.Effect.Refresh -> itemAdapter.refresh()
-
-            is ProductList.Effect.ShowError ->
-                // TODO luizssb: replace with snackbar
-                Toast.makeText(requireContext(), effect.error.message, Toast.LENGTH_SHORT).show()
-
             is ProductList.Effect.OpenProduct -> {
                 val action = ProductListFragmentDirections.actionProductListFragmentToProductFragment(
-                        effect.product.id
+                    effect.product.id
                 )
                 navController.navigate(action)
             }
+        }
+    }
+
+    private fun render(state: ListController.State<Product>) {
+        layout.refresh.isRefreshing = state.loadingRefresh
+        lifecycleScope.launch {
+            itemAdapter.submitData(state.entries)
+        }
+    }
+
+    private fun render(effect: ListController.Effect) {
+        when(effect) {
+            ListController.Effect.Refresh -> itemAdapter.refresh()
+
+            is ListController.Effect.ShowError ->
+                // TODO luizssb: replace with snackbar
+                Toast.makeText(requireContext(), effect.error.message, Toast.LENGTH_SHORT).show()
+
+//            is ProductList.Effect.OpenProduct -> {
+//                val action = ProductListFragmentDirections.actionProductListFragmentToProductFragment(
+//                    effect.product.id
+//                )
+//                navController.navigate(action)
+//            }
         }
     }
 }

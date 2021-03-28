@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.luizssb.adidas.confirmed.R
 import com.luizssb.adidas.confirmed.databinding.FragmentProductBinding
 import com.luizssb.adidas.confirmed.utils.extensions.FlowEx.Companion.observeOnLifecycle
 import com.luizssb.adidas.confirmed.utils.extensions.FragmentEx.Companion.enableActionBarBackButton
@@ -22,6 +24,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.DefinitionParameters
+
 
 class ProductFragment : Fragment() {
     private val args: ProductFragmentArgs by navArgs()
@@ -52,9 +55,9 @@ class ProductFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         layout = FragmentProductBinding.inflate(inflater, container, false)
                 .apply {
@@ -62,7 +65,14 @@ class ProductFragment : Fragment() {
                     enableActionBarBackButton()
                     refreshReviews.setOnRefreshListener { reviewsViewModel.handleIntent(ReviewList.Intent.Refresh) }
                     listReviews.adapter = reviewsAdapter
-                    buttonAddReview.setOnClickListener {  }
+                    buttonAddReview.setOnClickListener {
+
+                        val builder = AlertDialog.Builder(requireActivity())
+                        val dialogView: View = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_review, root, false)
+                        builder.setView(dialogView)
+                        val alertDialog: AlertDialog = builder.create()
+                        alertDialog.show()
+                    }
                 }
 
         with(detailViewModel) {
