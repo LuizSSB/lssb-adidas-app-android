@@ -1,8 +1,8 @@
 package com.luizssb.adidas.confirmed.viewmodel.product
 
 import com.luizssb.adidas.confirmed.dto.Product
-import com.luizssb.adidas.confirmed.viewmodel.DefaultBaseViewModel
-import com.luizssb.adidas.confirmed.viewmodel.ListController
+import com.luizssb.adidas.confirmed.viewmodel.MVIViewModel
+import com.luizssb.adidas.confirmed.viewmodel.list.List
 
 abstract class ProductList private constructor() {
     data class State(
@@ -18,7 +18,7 @@ abstract class ProductList private constructor() {
         data class Select(val product: Product) : Intent()
     }
 
-    abstract class ViewModel : DefaultBaseViewModel<State, Effect, Intent>(State()) {
-        abstract val listController: ListController<Product>
+    abstract class ViewModel : MVIViewModel<State, Effect, Intent>(State()) {
+        abstract val listController: List.Controller<Product>
     }
 }
