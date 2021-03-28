@@ -23,17 +23,17 @@ import com.luizssb.adidas.confirmed.viewmodel.review.impl.ReviewListViewModelImp
 import org.koin.dsl.module
 
 val DIModule = module {
+    // luizssb: services - retrofit
+    single { RetrofitProductRESTAPI.default }
+    single { RetrofitReviewRESTAPI.default }
+
     // luizssb: services
-    single<ProductService> { ProductServiceImpl(RetrofitProductRESTAPI.default) }
-    single<ReviewService> { ReviewServiceImpl(RetrofitReviewRESTAPI.default) }
+    single<ProductService> { ProductServiceImpl(get()) }
+    single<ReviewService> { ReviewServiceImpl(get()) }
 
-    // luizssb: repositories
-
-    // luizssb: repositores - product
+    // luizssb: repositores
     factory<ProductPagingSource.Factory>{ ProductPagingSourceImpl.Factory(get()) }
     single<ProductRepository> { ProductRepositoryImpl(get(), get()) }
-
-    // luizssb: repositories - review
     factory<ReviewPagingSource.Factory> { ReviewPagingSourceImpl.Factory(get()) }
     single<ReviewRepository> { ReviewRepositoryImpl(get(), get()) }
 

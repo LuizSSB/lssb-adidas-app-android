@@ -3,6 +3,7 @@ package com.luizssb.adidas.confirmed.viewcontroller.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.luizssb.adidas.confirmed.R
 import com.luizssb.adidas.confirmed.databinding.ItemReviewBinding
 import com.luizssb.adidas.confirmed.dto.Rating
 import com.luizssb.adidas.confirmed.dto.Review
@@ -10,10 +11,13 @@ import com.luizssb.adidas.confirmed.dto.Review
 class ReviewViewHolder(private val layout: ItemReviewBinding) : RecyclerView.ViewHolder(layout.root) {
     fun bind(item: Review?) {
         val fixdItem = item ?: Review.NIL
-        layout.rating.rating = fixdItem.rating.toFloat()
-        // TODO get Locale object from review
-//        layout.textLocation.text = Locale("en", "br").displayCountry
-        layout.textText.text = fixdItem.text
+
+        with(layout) {
+            rating.rating = fixdItem.rating.value.toFloat()
+            textLocation.text = fixdItem.locale?.displayCountry ?:
+                layout.root.context.getString(R.string.label_locale_unknown)
+            textText.text = fixdItem.text
+        }
     }
 
     companion object {

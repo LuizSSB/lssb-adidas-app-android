@@ -9,4 +9,5 @@
     <string name="template_product_complete_name">%s %s</string>
     <string name="description_product_add_review">Write review</string>
     <string name="label_review_item_location">From:</string>
+    <string name="label_locale_unknown">Unknown</string>
 </resources>
