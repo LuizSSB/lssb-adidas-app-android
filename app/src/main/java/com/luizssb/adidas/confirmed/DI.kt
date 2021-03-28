@@ -18,6 +18,8 @@ import com.luizssb.adidas.confirmed.viewmodel.product.ProductDetail
 import com.luizssb.adidas.confirmed.viewmodel.product.ProductDetailViewModelImpl
 import com.luizssb.adidas.confirmed.viewmodel.product.ProductList
 import com.luizssb.adidas.confirmed.viewmodel.product.ProductListViewModelImpl
+import com.luizssb.adidas.confirmed.viewmodel.review.ReviewList
+import com.luizssb.adidas.confirmed.viewmodel.review.ReviewListViewModelImpl
 import org.koin.dsl.module
 
 val DIModule = module {
@@ -33,7 +35,7 @@ val DIModule = module {
 
     // luizssb: repositories - review
     factory<ReviewPagingSource.Factory> { ReviewPagingSourceImpl.Factory(get()) }
-    factory<ReviewRepository> { params -> ReviewRepositoryImpl(get(), get(), params.get()) }
+    single<ReviewRepository> { ReviewRepositoryImpl(get(), get()) }
 
     // luizssb: view models
     factory<ProductList.ViewModel> { ProductListViewModelImpl(get()) }

@@ -9,15 +9,14 @@ import kotlinx.coroutines.flow.Flow
 
 class ReviewRepositoryImpl(
     private val pagingSourceFactory: ReviewPagingSource.Factory,
-    private val service: ReviewService,
-    override val productId: String
+    private val service: ReviewService
 ) : ReviewRepository {
-    override fun reviews(): Flow<PagingData<Review>> {
+    override fun reviews(productId: String): Flow<PagingData<Review>> {
         return Pager(
             config = PagingConfig(20),
             pagingSourceFactory = { pagingSourceFactory(productId) }
         ).flow
     }
 
-    override suspend fun addReview(review: Review) = service.addReview(productId, review)
+    override suspend fun addReview(productId: String, review: Review) = service.addReview(productId, review)
 }
