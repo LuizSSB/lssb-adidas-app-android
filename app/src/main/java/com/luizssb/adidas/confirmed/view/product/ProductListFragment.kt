@@ -3,7 +3,9 @@ package com.luizssb.adidas.confirmed.view.product
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -11,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.luizssb.adidas.confirmed.R
 import com.luizssb.adidas.confirmed.databinding.FragmentProductListBinding
 import com.luizssb.adidas.confirmed.utils.extensions.FlowEx.Companion.observeOnLifecycle
+import com.luizssb.adidas.confirmed.utils.extensions.FragmentEx.Companion.setSupportActionBar
 import com.luizssb.adidas.confirmed.view.adapter.ProductsAdapter
 import com.luizssb.adidas.confirmed.viewmodel.product.ProductList
 import kotlinx.coroutines.flow.collectLatest
@@ -48,14 +51,12 @@ class ProductListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        setHasOptionsMenu(true)
-
         layout = FragmentProductListBinding.inflate(inflater, container, false)
 
         with(layout) {
-            refresh.setOnRefreshListener {
-                viewModel.handleIntent(ProductList.Intent.Refresh)
-            }
+            configureMenu(toolbar)
+
+            refresh.setOnRefreshListener { viewModel.handleIntent(ProductList.Intent.Refresh) }
             list.adapter = itemAdapter
         }
 
@@ -70,12 +71,9 @@ class ProductListFragment : Fragment() {
     // luizssb: the challenge's description described the app as being composed by two pages, so I am
     // choosing to not use Android's default approach to search, which requires extra activities and
     // a lot of other stuff, in favour of this simpler approach that is easier to implement.
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-
-        inflater.inflate(R.menu.search_product, menu)
-
-        (menu.findItem(R.id.action_search)?.actionView as? SearchView)?.run {
+    private fun configureMenu(toolbar: Toolbar) {
+        toolbar.inflateMenu(R.menu.search_product)
+        (toolbar.menu.findItem(R.id.action_search)?.actionView as? SearchView)?.run {
             queryHint = getString(R.string.hint_product_search)
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {

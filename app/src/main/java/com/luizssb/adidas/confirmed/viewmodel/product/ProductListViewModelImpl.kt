@@ -33,7 +33,7 @@ class ProductListViewModelImpl(
     override fun handleIntent(intent: ProductList.Intent) {
         when(intent) {
             is ProductList.Intent.ChangeSearchQuery -> intent.to.takeIf { it != stateValue.searchQuery }
-                    .let {
+                    ?.let {
                         setState { copy(searchQuery = it) }
                         listenToProducts(it)
                     }
