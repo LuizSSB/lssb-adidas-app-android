@@ -30,7 +30,7 @@ class ProductViewHolder(
     fun bind(item: Product?) {
         currentProduct = item
 
-        val fixdItem = item ?: PLACEHOLDER_PRODUCT
+        val fixdItem = item ?: Product.NIL
         layout.textName.text = itemView.context.getString(
                 R.string.template_products_item_name,
                 fixdItem.id,
@@ -61,14 +61,5 @@ class ProductViewHolder(
             )
             return ProductViewHolder(layout, onSelect)
         }
-
-        val PLACEHOLDER_PRODUCT = Product(
-                id = "",
-                name = "",
-                description = "",
-                imgUrl = "",
-                price = 0f,
-                currency = ""
-        )
     }
 }
