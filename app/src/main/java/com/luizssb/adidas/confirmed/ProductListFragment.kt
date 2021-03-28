@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import com.luizssb.adidas.confirmed.databinding.FragmentProductListBinding
+import com.luizssb.adidas.confirmed.utils.extensions.FlowEx.Companion.observeOnLifecycle
 import com.luizssb.adidas.confirmed.view.adapter.ProductsAdapter
 import com.luizssb.adidas.confirmed.viewmodel.product.ProductListViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -59,7 +60,7 @@ class ProductListFragment : Fragment() {
 
         viewModel.let {
             it.state.observe(viewLifecycleOwner, Observer(this::render))
-            it.effects.observe(viewLifecycleOwner, Observer(this::render))
+            it.effects.observeOnLifecycle(viewLifecycleOwner, this::render)
         }
 
         return layout.root
@@ -67,7 +68,7 @@ class ProductListFragment : Fragment() {
 
     // luizssb: the challenge's description described the app as being composed by two pages, so I am
     // choosing to not use Android's default approach to search, which requires extra activities and
-    // a lot of other stuff, in favor of this simpler approach that is easier to implement.
+    // a lot of other stuff, in favour of this simpler approach that is easier to implement.
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 

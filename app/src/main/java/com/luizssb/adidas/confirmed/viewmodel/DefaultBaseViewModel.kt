@@ -3,6 +3,10 @@ package com.luizssb.adidas.confirmed.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 
 abstract class DefaultBaseViewModel<TStateModel, TEffects, TIntent>(defaultValue: TStateModel)
     : ViewModel(), BaseViewModel<TStateModel, TEffects, TIntent> {
@@ -11,12 +15,13 @@ abstract class DefaultBaseViewModel<TStateModel, TEffects, TIntent>(defaultValue
 
     val stateValue get() = state.value!!
 
-    private val _effects = MutableLiveData<TEffects>()
-    final override val effects: LiveData<TEffects> = _effects
+    private val _effects = Channel<TEffects>(Channel.BUFFERED)
+    final override val effects = _effects.receiveAsFlow()
 
     init {
-        // luizssb: weird, a force unwrap should not be necessary here - prolly a bug in the IDE.
-        _state.value = defaultValue
+        // luizssb: weird, a force unwrap should not be necessary here.
+        // Prolly a bug in the IDE, but putting it anyway just to be safe
+        _state.value = defaultValue!!
     }
 
     private var started = false
@@ -36,11 +41,13 @@ abstract class DefaultBaseViewModel<TStateModel, TEffects, TIntent>(defaultValue
     protected fun setState(forceUpdate: Boolean = true, makeNewState: TStateModel.() -> TStateModel) {
         val newState = stateValue.makeNewState()
         if (forceUpdate || newState != stateValue) {
-            _state.value = newState
+            _state.value = newState!!
         }
     }
 
     protected fun setEffect(effect: TEffects) {
-        _effects.value = effect
+        viewModelScope.launch {
+            _effects.send(effect)
+        }
     }
 }

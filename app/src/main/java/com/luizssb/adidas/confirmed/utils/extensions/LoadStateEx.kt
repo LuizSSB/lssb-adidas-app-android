@@ -1,4 +1,4 @@
-package com.luizssb.adidas.confirmed.utils
+package com.luizssb.adidas.confirmed.utils.extensions
 
 import androidx.paging.LoadState
 

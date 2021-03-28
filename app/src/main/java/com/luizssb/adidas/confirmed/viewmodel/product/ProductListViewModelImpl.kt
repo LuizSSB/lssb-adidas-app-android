@@ -4,8 +4,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.cachedIn
 import com.luizssb.adidas.confirmed.repository.product.ProductRepository
-import com.luizssb.adidas.confirmed.utils.CombinedLoadStatesEx.Companion.error
-import com.luizssb.adidas.confirmed.utils.LoadStateEx.Companion.loading
+import com.luizssb.adidas.confirmed.utils.extensions.CombinedLoadStatesEx.Companion.error
+import com.luizssb.adidas.confirmed.utils.extensions.LoadStateEx.Companion.loading
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.takeWhile
 import kotlinx.coroutines.launch

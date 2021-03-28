@@ -1,7 +1,7 @@
-package com.luizssb.adidas.confirmed.utils
+package com.luizssb.adidas.confirmed.utils.extensions
 
 import androidx.paging.CombinedLoadStates
-import com.luizssb.adidas.confirmed.utils.LoadStateEx.Companion.error
+import com.luizssb.adidas.confirmed.utils.extensions.LoadStateEx.Companion.error
 
 class CombinedLoadStatesEx private constructor() {
     companion object {
