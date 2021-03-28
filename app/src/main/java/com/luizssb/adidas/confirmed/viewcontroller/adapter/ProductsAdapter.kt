@@ -1,4 +1,4 @@
-package com.luizssb.adidas.confirmed.view.adapter
+package com.luizssb.adidas.confirmed.viewcontroller.adapter
 
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter

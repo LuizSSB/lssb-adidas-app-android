@@ -1,4 +1,4 @@
-package com.luizssb.adidas.confirmed.view.product
+package com.luizssb.adidas.confirmed.viewcontroller.product
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,9 +13,8 @@ import com.luizssb.adidas.confirmed.databinding.FragmentProductBinding
 import com.luizssb.adidas.confirmed.utils.extensions.FlowEx.Companion.observeOnLifecycle
 import com.luizssb.adidas.confirmed.utils.extensions.FragmentEx.Companion.enableActionBarBackButton
 import com.luizssb.adidas.confirmed.utils.extensions.FragmentEx.Companion.setSupportActionBar
-import com.luizssb.adidas.confirmed.utils.extensions.ImageViewEx.Companion.setRemoteImage
 import com.luizssb.adidas.confirmed.utils.extensions.ProductEx.Companion.getCompleteName
-import com.luizssb.adidas.confirmed.view.adapter.ReviewsAdapter
+import com.luizssb.adidas.confirmed.viewcontroller.adapter.ReviewsAdapter
 import com.luizssb.adidas.confirmed.viewmodel.product.ProductDetail
 import com.luizssb.adidas.confirmed.viewmodel.review.ReviewList
 import kotlinx.coroutines.flow.collectLatest
@@ -60,6 +59,7 @@ class ProductFragment : Fragment() {
                 .apply {
                     setSupportActionBar(toolbar)
                     enableActionBarBackButton()
+                    refreshReviews.setOnRefreshListener { reviewsViewModel.handleIntent(ReviewList.Intent.Refresh) }
                     listReviews.adapter = reviewsAdapter
                     buttonAddReview.setOnClickListener {  }
                 }
