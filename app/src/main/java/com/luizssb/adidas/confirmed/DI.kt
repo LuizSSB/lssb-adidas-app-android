@@ -40,4 +40,5 @@ val DIModule = module {
     // luizssb: view models
     factory<ProductList.ViewModel> { ProductListViewModelImpl(get()) }
     factory<ProductDetail.ViewModel> { params -> ProductDetailViewModelImpl(get(), params.get()) }
+    factory<ReviewList.ViewModel> { params -> ReviewListViewModelImpl(get(), params.get()) }
 }
