@@ -22,16 +22,14 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_navhost"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:id="@+id/refresh">
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:id="@+id/list" />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/app_content" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,6 +1,7 @@
 plugins {
     id "com.android.application"
     id "kotlin-android"
+    id "androidx.navigation.safeargs.kotlin"
 }
 
 android {
@@ -61,6 +62,8 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$versions.androidx.recyclerview"
     implementation "androidx.paging:paging-runtime-ktx:$versions.androidx.paging"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$versions.androidx.swiperefreshlayout"
+    implementation "androidx.navigation:navigation-fragment-ktx:$versions.androidx.navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$versions.androidx.navigation"
 
     implementation "io.insert-koin:koin-android:$versions.koin"
 
@@ -69,6 +72,7 @@ dependencies {
 
     implementation "com.github.bumptech.glide:glide:$versions.glide"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     annotationProcessor "com.github.bumptech.glide:compiler:$versions.glide"
 
     testImplementation "junit:junit:$testVersions.junit"
