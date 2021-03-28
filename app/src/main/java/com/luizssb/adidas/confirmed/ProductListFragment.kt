@@ -11,7 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.luizssb.adidas.confirmed.databinding.FragmentProductListBinding
 import com.luizssb.adidas.confirmed.utils.extensions.FlowEx.Companion.observeOnLifecycle
 import com.luizssb.adidas.confirmed.view.adapter.ProductsAdapter
-import com.luizssb.adidas.confirmed.viewmodel.product.ProductListViewModel
+import com.luizssb.adidas.confirmed.viewmodel.product.ProductList
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -20,10 +20,10 @@ class ProductListFragment : Fragment() {
     private lateinit var layout: FragmentProductListBinding
 
     private val itemAdapter by lazy {
-        ProductsAdapter { viewModel.handleIntent(ProductListViewModel.Intent.Select(it)) }
+        ProductsAdapter { viewModel.handleIntent(ProductList.Intent.Select(it)) }
     }
 
-    private val viewModel by inject<ProductListViewModel>()
+    private val viewModel by inject<ProductList.ViewModel>()
 
     private val navController by lazy {
         val navHostFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.fragment_navhost)
@@ -35,7 +35,7 @@ class ProductListFragment : Fragment() {
 
         lifecycleScope.launch {
             itemAdapter.loadStateFlow.collectLatest {
-                viewModel.handleIntent(ProductListViewModel.Intent.ChangeLoadState(it))
+                viewModel.handleIntent(ProductList.Intent.ChangeLoadState(it))
             }
         }
 
@@ -53,7 +53,7 @@ class ProductListFragment : Fragment() {
 
         with(layout) {
             refresh.setOnRefreshListener {
-                viewModel.handleIntent(ProductListViewModel.Intent.Refresh)
+                viewModel.handleIntent(ProductList.Intent.Refresh)
             }
             list.adapter = itemAdapter
         }
@@ -82,33 +82,33 @@ class ProductListFragment : Fragment() {
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    viewModel.handleIntent(ProductListViewModel.Intent.ChangeSearchQuery(newText))
+                    viewModel.handleIntent(ProductList.Intent.ChangeSearchQuery(newText))
                     return true
                 }
             })
             setOnCloseListener {
-                viewModel.handleIntent(ProductListViewModel.Intent.ChangeSearchQuery(null))
+                viewModel.handleIntent(ProductList.Intent.ChangeSearchQuery(null))
                 false
             }
         }
     }
 
-    private fun render(state: ProductListViewModel.State) {
+    private fun render(state: ProductList.State) {
         layout.refresh.isRefreshing = state.loadingRefresh
         lifecycleScope.launch {
             itemAdapter.submitData(state.products)
         }
     }
 
-    private fun render(effect: ProductListViewModel.Effect) {
+    private fun render(effect: ProductList.Effect) {
         when(effect) {
-            ProductListViewModel.Effect.Refresh -> itemAdapter.refresh()
+            ProductList.Effect.Refresh -> itemAdapter.refresh()
 
-            is ProductListViewModel.Effect.ShowError ->
+            is ProductList.Effect.ShowError ->
                 // TODO luizssb: replace with snackbar
                 Toast.makeText(requireContext(), effect.error.message, Toast.LENGTH_SHORT).show()
 
-            is ProductListViewModel.Effect.OpenProduct -> {
+            is ProductList.Effect.OpenProduct -> {
                 val action = ProductListFragmentDirections.actionProductListFragmentToProductFragment(
                         effect.product.id
                 )

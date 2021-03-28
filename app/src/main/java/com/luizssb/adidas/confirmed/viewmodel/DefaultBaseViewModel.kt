@@ -45,7 +45,7 @@ abstract class DefaultBaseViewModel<TStateModel, TEffects, TIntent>(defaultValue
         }
     }
 
-    protected fun setEffect(effect: TEffects) {
+    protected fun runEffect(effect: TEffects) {
         viewModelScope.launch {
             _effects.send(effect)
         }
