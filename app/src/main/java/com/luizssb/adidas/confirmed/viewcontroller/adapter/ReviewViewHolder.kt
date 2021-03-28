@@ -4,13 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.luizssb.adidas.confirmed.databinding.ItemReviewBinding
+import com.luizssb.adidas.confirmed.dto.Rating
 import com.luizssb.adidas.confirmed.dto.Review
 
 class ReviewViewHolder(private val layout: ItemReviewBinding) : RecyclerView.ViewHolder(layout.root) {
-    private var currentReview: Review? = null
-
     fun bind(item: Review?) {
         val fixdItem = item ?: Review.NIL
+        layout.rating.rating = fixdItem.rating.toFloat()
+        // TODO get Locale object from review
+//        layout.textLocation.text = Locale("en", "br").displayCountry
         layout.textText.text = fixdItem.text
     }
 
@@ -19,6 +21,10 @@ class ReviewViewHolder(private val layout: ItemReviewBinding) : RecyclerView.Vie
             val layout = ItemReviewBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
             )
+                    .apply {
+                        rating.max = Rating.MAX.value
+                        rating.numStars = Rating.MAX.value
+                    }
             return ReviewViewHolder(layout)
         }
     }

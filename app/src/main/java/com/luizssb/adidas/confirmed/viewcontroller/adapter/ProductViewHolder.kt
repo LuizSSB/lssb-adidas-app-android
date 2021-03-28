@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.luizssb.adidas.confirmed.databinding.ItemProductBinding
 import com.luizssb.adidas.confirmed.dto.Product
 import com.luizssb.adidas.confirmed.utils.EventHandler
+import com.luizssb.adidas.confirmed.utils.extensions.ImageViewEx.Companion.setRemoteImage
 import com.luizssb.adidas.confirmed.utils.extensions.ProductEx.Companion.getCompleteName
 import java.text.NumberFormat
 import java.util.*

@@ -13,6 +13,7 @@ import com.luizssb.adidas.confirmed.databinding.FragmentProductBinding
 import com.luizssb.adidas.confirmed.utils.extensions.FlowEx.Companion.observeOnLifecycle
 import com.luizssb.adidas.confirmed.utils.extensions.FragmentEx.Companion.enableActionBarBackButton
 import com.luizssb.adidas.confirmed.utils.extensions.FragmentEx.Companion.setSupportActionBar
+import com.luizssb.adidas.confirmed.utils.extensions.ImageViewEx.Companion.setRemoteImage
 import com.luizssb.adidas.confirmed.utils.extensions.ProductEx.Companion.getCompleteName
 import com.luizssb.adidas.confirmed.viewcontroller.adapter.ReviewsAdapter
 import com.luizssb.adidas.confirmed.viewmodel.product.ProductDetail
