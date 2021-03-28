@@ -1,6 +1,8 @@
 package com.luizssb.adidas.confirmed.dto
 
 import java.io.Serializable
+import java.text.NumberFormat
+import java.util.*
 
 data class Product(
         val id: String,
@@ -22,4 +24,8 @@ data class Product(
                 currency = ""
         )
     }
+
+    val priceString get() = NumberFormat.getCurrencyInstance(Locale.getDefault())
+            .also { it.currency = Currency.getInstance(currency) }
+            .format(price)
 }

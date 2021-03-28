@@ -81,6 +81,7 @@ class ProductFragment : Fragment() {
     private fun render(state: ProductDetail.State) {
         with(layout) {
             toolbar.title = state.product?.getCompleteName(requireContext())
+            textPrice.text = state.product?.priceString
             textDescription.text = state.product?.description
             imageHeader.setRemoteImage(state.product?.imgUrl)
         }
