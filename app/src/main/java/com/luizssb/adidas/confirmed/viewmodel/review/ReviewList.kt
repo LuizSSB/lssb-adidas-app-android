@@ -1,5 +1,6 @@
 package com.luizssb.adidas.confirmed.viewmodel.review
 
+import androidx.paging.CombinedLoadStates
 import androidx.paging.PagingData
 import com.luizssb.adidas.confirmed.dto.Review
 import com.luizssb.adidas.confirmed.viewmodel.DefaultBaseViewModel
@@ -18,6 +19,8 @@ abstract class ReviewList private constructor() {
     }
 
     abstract class Intent private constructor() {
+        data class ChangeLoadState(val state: CombinedLoadStates) : Intent()
+        object Refresh : Intent()
         object AddReview : Intent()
     }
 
