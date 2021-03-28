@@ -4,22 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import com.luizssb.adidas.confirmed.R
 import com.luizssb.adidas.confirmed.databinding.FragmentProductListBinding
-import com.luizssb.adidas.confirmed.dto.Product
 import com.luizssb.adidas.confirmed.utils.extensions.FlowEx.Companion.observeOnLifecycle
+import com.luizssb.adidas.confirmed.viewcontroller.ListingViewControllerEx.Companion.observeListing
 import com.luizssb.adidas.confirmed.viewcontroller.adapter.ProductsAdapter
-import com.luizssb.adidas.confirmed.viewmodel.list.List
+import com.luizssb.adidas.confirmed.viewmodel.list.Listing
 import com.luizssb.adidas.confirmed.viewmodel.product.ProductList
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProductListFragment : Fragment() {
@@ -39,12 +35,6 @@ class ProductListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        lifecycleScope.launch {
-            itemAdapter.loadStateFlow.collectLatest {
-                viewModel.listController.handleIntent(List.Intent.ChangeLoadState(it))
-            }
-        }
-
         viewModel.startOrResume()
     }
 
@@ -57,7 +47,7 @@ class ProductListFragment : Fragment() {
                 .apply {
                     configureMenu(toolbar)
 
-                    refresh.setOnRefreshListener { viewModel.listController.handleIntent(List.Intent.Refresh) }
+                    refresh.setOnRefreshListener { viewModel.listingController.handleIntent(Listing.Intent.Refresh) }
                     list.adapter = itemAdapter
                 }
 
@@ -66,10 +56,7 @@ class ProductListFragment : Fragment() {
             it.effects.observeOnLifecycle(viewLifecycleOwner, ::render)
         }
 
-        viewModel.listController.let {
-            it.state.observe(viewLifecycleOwner, Observer(::render))
-            it.effects.observeOnLifecycle(viewLifecycleOwner, ::render)
-        }
+        observeListing(viewModel.listingController, layout.refresh, itemAdapter)
 
         return layout.root
     }
@@ -109,30 +96,6 @@ class ProductListFragment : Fragment() {
                 )
                 navController.navigate(action)
             }
-        }
-    }
-
-    private fun render(state: List.State<Product>) {
-        layout.refresh.isRefreshing = state.loadingRefresh
-        lifecycleScope.launch {
-            itemAdapter.submitData(state.entries)
-        }
-    }
-
-    private fun render(effect: List.Effect) {
-        when(effect) {
-            List.Effect.Refresh -> itemAdapter.refresh()
-
-            is List.Effect.ShowError ->
-                // TODO luizssb: replace with snackbar
-                Toast.makeText(requireContext(), effect.error.message, Toast.LENGTH_SHORT).show()
-
-//            is ProductList.Effect.OpenProduct -> {
-//                val action = ProductListFragmentDirections.actionProductListFragmentToProductFragment(
-//                    effect.product.id
-//                )
-//                navController.navigate(action)
-//            }
         }
     }
 }

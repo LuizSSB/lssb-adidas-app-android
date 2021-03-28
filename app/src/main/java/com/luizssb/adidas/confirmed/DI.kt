@@ -16,7 +16,7 @@ import com.luizssb.adidas.confirmed.service.review.ReviewService
 import com.luizssb.adidas.confirmed.service.review.impl.ReviewServiceImpl
 import com.luizssb.adidas.confirmed.viewmodel.product.ProductDetail
 import com.luizssb.adidas.confirmed.viewmodel.product.impl.ProductDetailViewModelImpl
-import com.luizssb.adidas.confirmed.viewmodel.list.List
+import com.luizssb.adidas.confirmed.viewmodel.list.Listing
 import com.luizssb.adidas.confirmed.viewmodel.list.impl.ListControllerImpl
 import com.luizssb.adidas.confirmed.viewmodel.product.ProductList
 import com.luizssb.adidas.confirmed.viewmodel.product.impl.ProductListViewModelImpl
@@ -42,7 +42,7 @@ val DIModule = module {
 
     // luizssb: controllers
     // luizssb: parameter type can be Any because of type erasure
-    viewModel<List.Controller<Any>> { ListControllerImpl() }
+    viewModel<Listing.Controller<Any>> { ListControllerImpl() }
 
     // luizssb: view models
     factory<ProductList.ViewModel> { ProductListViewModelImpl(get()) }

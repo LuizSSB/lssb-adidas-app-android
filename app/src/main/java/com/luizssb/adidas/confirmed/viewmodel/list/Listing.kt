@@ -5,7 +5,7 @@ import androidx.paging.PagingData
 import com.luizssb.adidas.confirmed.viewmodel.DefaultMVIController
 import kotlinx.coroutines.flow.Flow
 
-class List {
+class Listing {
     data class State<T : Any>(
         val entries: PagingData<T> = PagingData.empty(),
         val loadingPrevious: Boolean = false,

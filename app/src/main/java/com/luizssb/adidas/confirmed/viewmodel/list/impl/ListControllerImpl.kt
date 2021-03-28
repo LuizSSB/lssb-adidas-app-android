@@ -5,12 +5,12 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.PagingData
 import com.luizssb.adidas.confirmed.utils.extensions.CombinedLoadStatesEx.Companion.error
 import com.luizssb.adidas.confirmed.utils.extensions.LoadStateEx.Companion.loading
-import com.luizssb.adidas.confirmed.viewmodel.list.List
+import com.luizssb.adidas.confirmed.viewmodel.list.Listing
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class ListControllerImpl<T : Any> : List.Controller<T>() {
+class ListControllerImpl<T : Any> : Listing.Controller<T>() {
     override fun updateEntries(flow: Flow<PagingData<T>>) {
         viewModelScope.launch {
             flow.collectLatest {
@@ -20,17 +20,17 @@ class ListControllerImpl<T : Any> : List.Controller<T>() {
     }
 
 
-    override fun handleIntent(intent: List.Intent) {
+    override fun handleIntent(intent: Listing.Intent) {
         when(intent) {
-            is List.Intent.ChangeLoadState -> handleLoadStateChange(intent.state)
+            is Listing.Intent.ChangeLoadState -> handleLoadStateChange(intent.state)
 
-            List.Intent.Refresh -> runEffect(List.Effect.Refresh)
+            Listing.Intent.Refresh -> runEffect(Listing.Effect.Refresh)
         }
     }
 
     private fun handleLoadStateChange(loadStates: CombinedLoadStates) {
         loadStates.error?.let {
-            runEffect(List.Effect.ShowError(it))
+            runEffect(Listing.Effect.ShowError(it))
         }
 
         setState(forceUpdate = false) {

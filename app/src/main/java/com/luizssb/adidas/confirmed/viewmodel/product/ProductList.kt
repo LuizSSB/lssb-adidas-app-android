@@ -2,7 +2,7 @@ package com.luizssb.adidas.confirmed.viewmodel.product
 
 import com.luizssb.adidas.confirmed.dto.Product
 import com.luizssb.adidas.confirmed.viewmodel.MVIViewModel
-import com.luizssb.adidas.confirmed.viewmodel.list.List
+import com.luizssb.adidas.confirmed.viewmodel.list.Listing
 
 abstract class ProductList private constructor() {
     data class State(
@@ -19,6 +19,6 @@ abstract class ProductList private constructor() {
     }
 
     abstract class ViewModel : MVIViewModel<State, Effect, Intent>(State()) {
-        abstract val listController: List.Controller<Product>
+        abstract val listingController: Listing.Controller<Product>
     }
 }
