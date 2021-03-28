@@ -5,7 +5,6 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.luizssb.adidas.confirmed.dto.Product
 import com.luizssb.adidas.confirmed.utils.EventHandler
-import com.luizssb.adidas.confirmed.view.viewholder.ProductViewHolder
 
 class ProductsAdapter(
     private var onSelectItem: EventHandler<Product>? = null
