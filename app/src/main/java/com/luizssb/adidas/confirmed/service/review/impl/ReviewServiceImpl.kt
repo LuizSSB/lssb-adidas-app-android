@@ -1,8 +1,9 @@
-package com.luizssb.adidas.confirmed.service.review
+package com.luizssb.adidas.confirmed.service.review.impl
 
 import com.luizssb.adidas.confirmed.dto.Review
 import com.luizssb.adidas.confirmed.service.PaginationResult
 import com.luizssb.adidas.confirmed.service.retrofit.RetrofitReviewRESTAPI
+import com.luizssb.adidas.confirmed.service.review.ReviewService
 import com.luizssb.adidas.confirmed.utils.PageRef
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

@@ -1,6 +1,7 @@
-package com.luizssb.adidas.confirmed.viewmodel.review
+package com.luizssb.adidas.confirmed.viewmodel.review.impl
 
 import com.luizssb.adidas.confirmed.repository.review.ReviewRepository
+import com.luizssb.adidas.confirmed.viewmodel.review.ReviewList
 
 class ReviewListViewModelImpl(
         private val repository: ReviewRepository,

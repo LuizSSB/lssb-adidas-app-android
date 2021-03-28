@@ -1,8 +1,9 @@
-package com.luizssb.adidas.confirmed.repository.review
+package com.luizssb.adidas.confirmed.repository.review.impl
 
 import androidx.paging.PagingState
 import com.luizssb.adidas.confirmed.dto.Review
 import com.luizssb.adidas.confirmed.repository.paging.DefaultPagingSourceImpl
+import com.luizssb.adidas.confirmed.repository.review.ReviewPagingSource
 import com.luizssb.adidas.confirmed.service.review.ReviewService
 
 class ReviewPagingSourceImpl(
