@@ -1,59 +1,104 @@
 package com.luizssb.adidas.confirmed
 
 import android.os.Bundle
+import android.view.*
+import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import com.luizssb.adidas.confirmed.databinding.FragmentProductListBinding
+import com.luizssb.adidas.confirmed.view.adapter.ProductsAdapter
+import com.luizssb.adidas.confirmed.viewmodel.product.ProductListViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ProductListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ProductListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var layout: FragmentProductListBinding
+
+    private val itemAdapter by lazy {
+        ProductsAdapter { viewModel.handleIntent(ProductListViewModel.Intent.Select(it)) }
+    }
+
+    private val viewModel by inject<ProductListViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+
+        lifecycleScope.launch {
+            itemAdapter.loadStateFlow.collectLatest {
+                viewModel.handleIntent(ProductListViewModel.Intent.ChangeLoadState(it))
+            }
         }
+
+        viewModel.startOrResume()
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_product_list, container, false)
+    ): View {
+        setHasOptionsMenu(true)
+
+        layout = FragmentProductListBinding.inflate(inflater, container, false)
+
+        with(layout) {
+            refresh.setOnRefreshListener {
+                viewModel.handleIntent(ProductListViewModel.Intent.Refresh)
+            }
+            list.adapter = itemAdapter
+        }
+
+        viewModel.let {
+            it.state.observe(viewLifecycleOwner, Observer(this::render))
+            it.effects.observe(viewLifecycleOwner, Observer(this::render))
+        }
+
+        return layout.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProductListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProductListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    // luizssb: the challenge's description described the app as being composed by two pages, so I am
+    // choosing to not use Android's default approach to search, which requires extra activities and
+    // a lot of other stuff, in favor of this simpler approach that is easier to implement.
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        inflater.inflate(R.menu.search_product, menu)
+
+        (menu.findItem(R.id.action_search)?.actionView as? SearchView)?.run {
+            queryHint = getString(R.string.hint_product_search)
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
                 }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    viewModel.handleIntent(ProductListViewModel.Intent.ChangeSearchQuery(newText))
+                    return true
+                }
+            })
+            setOnCloseListener {
+                viewModel.handleIntent(ProductListViewModel.Intent.ChangeSearchQuery(null))
+                false
             }
+        }
+    }
+
+    private fun render(state: ProductListViewModel.State) {
+        layout.refresh.isRefreshing = state.loadingRefresh
+        lifecycleScope.launch {
+            itemAdapter.submitData(state.products)
+        }
+    }
+
+    private fun render(effect: ProductListViewModel.Effect) {
+        when(effect) {
+            ProductListViewModel.Effect.Refresh -> itemAdapter.refresh()
+            is ProductListViewModel.Effect.ShowError ->
+                // TODO luizssb: replace with snackbar
+                Toast.makeText(requireContext(), effect.error.message, Toast.LENGTH_SHORT).show()
+        }
     }
 }
