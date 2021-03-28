@@ -9,21 +9,18 @@ class ProductDetailViewModelImpl(
         private val productId: String
 ): ProductDetail.ViewModel() {
     override fun start() {
-        setState { copy(
-                loading = true
-        ) }
+        setState { copy( loading = true ) }
         viewModelScope.launch {
             try {
                 val product = repository.getProduct(productId)
-                if (product == null) {
-                    setState { copy(productNotFound = true) }
-                } else {
-                    setState { copy(product = product) }
-                }
+                setState { copy(
+                        product = product,
+                        productNotFound = product == null
+                ) }
             } catch (e: Throwable) {
                 runEffect(ProductDetail.Effect.ShowError(e))
             } finally {
-              setState { copy(loading = true) }
+              setState { copy(loading = false) }
             }
         }
     }

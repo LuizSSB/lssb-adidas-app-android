@@ -14,6 +14,8 @@ import com.luizssb.adidas.confirmed.service.retrofit.RetrofitProductRESTAPI
 import com.luizssb.adidas.confirmed.service.retrofit.RetrofitReviewRESTAPI
 import com.luizssb.adidas.confirmed.service.review.ReviewService
 import com.luizssb.adidas.confirmed.service.review.ReviewServiceImpl
+import com.luizssb.adidas.confirmed.viewmodel.product.ProductDetail
+import com.luizssb.adidas.confirmed.viewmodel.product.ProductDetailViewModelImpl
 import com.luizssb.adidas.confirmed.viewmodel.product.ProductList
 import com.luizssb.adidas.confirmed.viewmodel.product.ProductListViewModelImpl
 import org.koin.dsl.module
@@ -35,4 +37,5 @@ val DIModule = module {
 
     // luizssb: view models
     factory<ProductList.ViewModel> { ProductListViewModelImpl(get()) }
+    factory<ProductDetail.ViewModel> { params -> ProductDetailViewModelImpl(get(), params.get()) }
 }
