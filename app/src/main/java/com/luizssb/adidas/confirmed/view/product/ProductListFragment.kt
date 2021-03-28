@@ -1,4 +1,4 @@
-package com.luizssb.adidas.confirmed
+package com.luizssb.adidas.confirmed.view.product
 
 import android.os.Bundle
 import android.view.*
@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
+import com.luizssb.adidas.confirmed.R
 import com.luizssb.adidas.confirmed.databinding.FragmentProductListBinding
 import com.luizssb.adidas.confirmed.utils.extensions.FlowEx.Companion.observeOnLifecycle
 import com.luizssb.adidas.confirmed.view.adapter.ProductsAdapter
