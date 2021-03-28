@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class ProductListViewModelImpl(
     private val repository: ProductRepository
-) : ProductListViewModel() {
+) : ProductList.ViewModel() {
     override fun start() {
         listenToProducts()
     }
@@ -30,25 +30,25 @@ class ProductListViewModelImpl(
         }
     }
 
-    override fun handleIntent(intent: Intent) {
+    override fun handleIntent(intent: ProductList.Intent) {
         when(intent) {
-            is Intent.ChangeSearchQuery -> intent.to.takeIf { it != stateValue.searchQuery }
-                    .let {
+            is ProductList.Intent.ChangeSearchQuery -> intent.to.takeIf { it != stateValue.searchQuery }
+                    ?.let {
                         setState { copy(searchQuery = it) }
                         listenToProducts(it)
                     }
 
-            is Intent.ChangeLoadState -> handleLoadStateChange(intent.state)
+            is ProductList.Intent.ChangeLoadState -> handleLoadStateChange(intent.state)
 
-            Intent.Refresh -> setEffect(Effect.Refresh)
+            ProductList.Intent.Refresh -> runEffect(ProductList.Effect.Refresh)
 
-            is Intent.Select -> setEffect(Effect.OpenProduct(intent.product))
+            is ProductList.Intent.Select -> runEffect(ProductList.Effect.OpenProduct(intent.product))
         }
     }
 
     private fun handleLoadStateChange(loadStates: CombinedLoadStates) {
         loadStates.error?.let {
-            setEffect(Effect.ShowError(it))
+            runEffect(ProductList.Effect.ShowError(it))
         }
 
         setState(forceUpdate = false) { copy(

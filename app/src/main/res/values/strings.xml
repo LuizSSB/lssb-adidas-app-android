@@ -5,7 +5,7 @@
     <string name="hint_product_search">Search products</string>
     <string name="label_products_search">Search</string>
     <string name="title_products">Adidas</string>
-    <string name="template_products_item_name">%s %s</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="template_product_complete_name">%s %s</string>
+    <string name="description_product_add_review">Write review</string>
 </resources>

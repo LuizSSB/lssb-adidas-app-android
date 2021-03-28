@@ -1,16 +1,9 @@
 package com.luizssb.adidas.confirmed.view
 
 import android.os.Bundle
-import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
-import androidx.navigation.fragment.NavHostFragment
-import com.luizssb.adidas.confirmed.ProductListFragmentDirections
-import com.luizssb.adidas.confirmed.R
 import com.luizssb.adidas.confirmed.databinding.ActivityMainBinding
-import com.luizssb.adidas.confirmed.view.adapter.ProductsAdapter
-import com.luizssb.adidas.confirmed.viewmodel.product.ProductListViewModel
-import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
     private val layout by lazy { ActivityMainBinding.inflate(layoutInflater) }
@@ -18,6 +11,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.root)
-        setSupportActionBar(layout.toolbar)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

@@ -12,4 +12,5 @@
     <dimen name="text_size_default">23sp</dimen>
 
     <dimen name="size_product_image">150dp</dimen>
+    <dimen name="size_product_header">250dp</dimen>
 </resources>

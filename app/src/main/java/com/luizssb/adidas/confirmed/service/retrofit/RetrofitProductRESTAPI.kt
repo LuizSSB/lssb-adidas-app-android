@@ -4,13 +4,14 @@ import com.luizssb.adidas.confirmed.BuildConfig
 import com.luizssb.adidas.confirmed.dto.Product
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface RetrofitProductRESTAPI {
     @GET("/product")
     fun getProducts(): Call<List<Product>>
 
-    @GET("/product/{productId}")
-    fun getProduct(productId: String): Call<Product>
+    @GET("/product/{id}")
+    fun getProduct(@Path("id") id: String): Call<Product>
 
     companion object {
         val default: RetrofitProductRESTAPI by lazy {

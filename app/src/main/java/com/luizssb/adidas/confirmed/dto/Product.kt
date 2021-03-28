@@ -11,4 +11,15 @@ data class Product(
         val currency: String
         // luizssb: although reviews are returned by the API, let us assume they do not,
         // so as to imagine a more performant data exchange.
-) : Serializable
+) : Serializable {
+    companion object {
+        val NIL = Product(
+                id = "",
+                name = "",
+                description = "",
+                imgUrl = "",
+                price = 0f,
+                currency = ""
+        )
+    }
+}

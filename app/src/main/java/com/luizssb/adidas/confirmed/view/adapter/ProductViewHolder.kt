@@ -1,13 +1,13 @@
-package com.luizssb.adidas.confirmed.view.viewholder
+package com.luizssb.adidas.confirmed.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.luizssb.adidas.confirmed.R
 import com.luizssb.adidas.confirmed.databinding.ItemProductBinding
 import com.luizssb.adidas.confirmed.dto.Product
 import com.luizssb.adidas.confirmed.utils.EventHandler
+import com.luizssb.adidas.confirmed.utils.extensions.ImageViewEx.Companion.setRemoteImage
+import com.luizssb.adidas.confirmed.utils.extensions.ProductEx.Companion.getCompleteName
 import java.text.NumberFormat
 import java.util.*
 
@@ -30,24 +30,20 @@ class ProductViewHolder(
     fun bind(item: Product?) {
         currentProduct = item
 
-        val fixdItem = item ?: PLACEHOLDER_PRODUCT
-        layout.textName.text = itemView.context.getString(
-                R.string.template_products_item_name,
-                fixdItem.id,
-                fixdItem.name
-        )
-        layout.textDescription.text = fixdItem.description
-        layout.textPrice.text = numberFormatter
-                .apply { currency = Currency.getInstance(fixdItem.currency) }
-                .format(fixdItem.price)
+        val fixdItem = item ?: Product.NIL
 
-        if (item == null) {
-            layout.image.setImageDrawable(null)
-        } else {
-            Glide.with(layout.root.context)
-                .load(item.imgUrl)
-                .placeholder(R.mipmap.ic_launcher_desaturated)
-                .into(layout.image)
+        with (layout) {
+            textName.text = fixdItem.getCompleteName(root.context)
+            textDescription.text = fixdItem.description
+            textPrice.text = numberFormatter
+                    .apply { currency = Currency.getInstance(fixdItem.currency) }
+                    .format(fixdItem.price)
+
+            if (item == null) {
+                image.setImageDrawable(null)
+            } else {
+                image.setRemoteImage(fixdItem.imgUrl)
+            }
         }
     }
 
@@ -61,14 +57,5 @@ class ProductViewHolder(
             )
             return ProductViewHolder(layout, onSelect)
         }
-
-        val PLACEHOLDER_PRODUCT = Product(
-                id = "",
-                name = "",
-                description = "",
-                imgUrl = "",
-                price = 0f,
-                currency = ""
-        )
     }
 }

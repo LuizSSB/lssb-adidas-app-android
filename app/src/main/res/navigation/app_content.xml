@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/productListFragment"
-        android:name="com.luizssb.adidas.confirmed.ProductListFragment"
+        android:name="com.luizssb.adidas.confirmed.view.product.ProductListFragment"
         android:label="fragment_product_list"
-        tools:layout="@layout/fragment_product_list" >
+        tools:layout="@layout/fragment_product_list">
         <action
             android:id="@+id/action_productListFragment_to_productFragment"
             app:destination="@id/productFragment"
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/productFragment"
-        android:name="com.luizssb.adidas.confirmed.ProductFragment"
+        android:name="com.luizssb.adidas.confirmed.view.product.ProductFragment"
         android:label="fragment_product"
         tools:layout="@layout/fragment_product" >
         <argument
