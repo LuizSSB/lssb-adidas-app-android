@@ -6,5 +6,5 @@ import com.luizssb.adidas.confirmed.utils.PageRef
 
 interface ReviewService {
     suspend fun getReviews(productId: String, pageRef: PageRef): PaginationResult<Review>
-    suspend fun addReview(productId: String, review: Review)
+    suspend fun addReview(review: Review)
 }

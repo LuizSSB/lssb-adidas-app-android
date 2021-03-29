@@ -20,5 +20,5 @@ class ReviewRepositoryImpl(
         ).flow
     }
 
-    override suspend fun addReview(productId: String, review: Review) = service.addReview(productId, review)
+    override suspend fun addReview(review: Review) = service.addReview(review)
 }
