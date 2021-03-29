@@ -34,7 +34,7 @@ class ProductServiceImpl(private val api: RetrofitProductRESTAPI) : ProductServi
                         }
                         ?: products
 
-                PaginationResult(filtered, filtered.size >= pageRef.limit)
+                PaginationResult(filtered, pageRef)
             }
 
     override suspend fun getProduct(productId: String): Product? = withContext(Dispatchers.IO) {

@@ -10,14 +10,14 @@ class ProductPagingSourceImpl(
         private val service: ProductService,
         private val searchQuery: String?
 ) : ProductPagingSource() {
-    private val inner by lazy {
+    private val proxy by lazy {
         DefaultPagingSourceImpl { service.getProducts(searchQuery, it) }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Product>) = inner.getRefreshKey(state)
+    override fun getRefreshKey(state: PagingState<Int, Product>) = proxy.getRefreshKey(state)
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Product> =
-        inner.load(params)
+        proxy.load(params)
 
     class Factory(private val service: ProductService) : ProductPagingSource.Factory {
         override fun invoke(searchQuery: String?) = ProductPagingSourceImpl(service, searchQuery)

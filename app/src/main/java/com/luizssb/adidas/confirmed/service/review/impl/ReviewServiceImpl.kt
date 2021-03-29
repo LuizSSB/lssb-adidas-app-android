@@ -27,7 +27,7 @@ class ReviewServiceImpl(
                     ?.fakePagination(pageRef)
                     ?.map { it.toAppType() }
                     ?: emptyList()
-            PaginationResult(reviews, false)
+            PaginationResult(reviews, pageRef)
         }
 
     override suspend fun addReview(review: Review) = withContext(Dispatchers.IO) {

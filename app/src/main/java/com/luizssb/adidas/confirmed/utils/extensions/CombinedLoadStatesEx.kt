@@ -5,6 +5,6 @@ import com.luizssb.adidas.confirmed.utils.extensions.LoadStateEx.Companion.error
 
 class CombinedLoadStatesEx private constructor() {
     companion object {
-        val CombinedLoadStates.error get() = append.error ?: prepend.error ?: refresh.error
+        val CombinedLoadStates.error get() = refresh.error ?: append.error ?: prepend.error
     }
 }

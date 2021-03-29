@@ -12,20 +12,19 @@ import androidx.navigation.fragment.NavHostFragment
 import com.luizssb.adidas.confirmed.R
 import com.luizssb.adidas.confirmed.databinding.FragmentProductListBinding
 import com.luizssb.adidas.confirmed.utils.extensions.FlowEx.Companion.observeOnLifecycle
-import com.luizssb.adidas.confirmed.viewcontroller.ListingViewControllerEx.Companion.observeListing
+import com.luizssb.adidas.confirmed.viewcontroller.ListingViewControllerEx.Companion.justObserveListing
 import com.luizssb.adidas.confirmed.viewcontroller.adapter.ProductsAdapter
-import com.luizssb.adidas.confirmed.viewmodel.list.Listing
-import com.luizssb.adidas.confirmed.viewmodel.product.ProductList
+import com.luizssb.adidas.confirmed.viewmodel.product.Products
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProductListFragment : Fragment() {
     private lateinit var layout: FragmentProductListBinding
 
     private val itemAdapter by lazy {
-        ProductsAdapter { viewModel.handleIntent(ProductList.Intent.Select(it)) }
+        ProductsAdapter { viewModel.handleIntent(Products.Intent.Select(it)) }
     }
 
-    private val viewModel by viewModel<ProductList.ViewModel>()
+    private val viewModel by viewModel<Products.ViewModel>()
 
     private val navController by lazy {
         val navHostFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.fragment_navhost)
@@ -46,7 +45,6 @@ class ProductListFragment : Fragment() {
         layout = FragmentProductListBinding.inflate(inflater, container, false)
                 .apply {
                     configureMenu(toolbar)
-                    list.adapter = itemAdapter
                 }
 
         viewModel.let {
@@ -54,7 +52,7 @@ class ProductListFragment : Fragment() {
             it.effects.observeOnLifecycle(viewLifecycleOwner, ::render)
         }
 
-        observeListing(viewModel.listingController, layout.refresh, itemAdapter)
+        justObserveListing(viewModel.listingController, layout.viewList, itemAdapter)
 
         return layout.root
     }
@@ -72,23 +70,23 @@ class ProductListFragment : Fragment() {
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    viewModel.handleIntent(ProductList.Intent.ChangeSearchQuery(newText))
+                    viewModel.handleIntent(Products.Intent.ChangeSearchQuery(newText))
                     return true
                 }
             })
             setOnCloseListener {
-                viewModel.handleIntent(ProductList.Intent.ChangeSearchQuery(null))
+                viewModel.handleIntent(Products.Intent.ChangeSearchQuery(null))
                 false
             }
         }
     }
 
-    private fun render(state: ProductList.State) {
+    private fun render(state: Products.State) {
     }
 
-    private fun render(effect: ProductList.Effect) {
+    private fun render(effect: Products.Effect) {
         when(effect) {
-            is ProductList.Effect.OpenProduct -> {
+            is Products.Effect.OpenProduct -> {
                 val action = ProductListFragmentDirections.actionProductListFragmentToProductFragment(
                     effect.product.id
                 )

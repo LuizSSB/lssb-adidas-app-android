@@ -7,6 +7,8 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
+internal annotation class MVIControllerProperty
+
 abstract class DefaultMVIController<TState, TEffects, TIntent>(initialValue: TState)
     : MVIController<TState, TEffects, TIntent>() {
     private val _state = MutableLiveData<TState>()
@@ -35,4 +37,28 @@ abstract class DefaultMVIController<TState, TEffects, TIntent>(initialValue: TSt
             _effects.send(effect)
         }
     }
+
+    override fun onCleared() {
+        super.onCleared()
+
+        // luizssb: kind of a "workaround", won't deny. However, thanks o it, viewmodels/controllers
+        // can HAS-A other viewmodel/controllers and, in my experience, this is something that pays
+        // off, because it allows reusing viewmodel-like objects that bind to views, without having
+        // to resort to subclassing , which brings all its problems
+        // luizssb: using javaclass to avoid having to load kotlin-reflect
+        javaClass.methods
+            .filter {
+                it.annotations.any {
+                        ann -> ann as? MVIControllerProperty != null
+                }
+            }
+            .mapNotNull {
+                it.invoke(this) as? DefaultMVIController<*, *, *>
+            }
+            .forEach {
+                it.didClear()
+            }
+    }
+
+    private fun didClear() = onCleared()
 }

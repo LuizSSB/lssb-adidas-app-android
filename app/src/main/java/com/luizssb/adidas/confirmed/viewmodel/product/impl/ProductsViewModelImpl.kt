@@ -4,14 +4,15 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.luizssb.adidas.confirmed.dto.Product
 import com.luizssb.adidas.confirmed.repository.product.ProductRepository
+import com.luizssb.adidas.confirmed.viewmodel.MVIControllerProperty
 import com.luizssb.adidas.confirmed.viewmodel.list.Listing
-import com.luizssb.adidas.confirmed.viewmodel.product.ProductList
+import com.luizssb.adidas.confirmed.viewmodel.product.Products
 import kotlinx.coroutines.flow.takeWhile
 
-class ProductListViewModelImpl(
+class ProductsViewModelImpl(
     private val repository: ProductRepository,
-    override val listingController: Listing.Controller<Product>
-) : ProductList.ViewModel() {
+    @get:MVIControllerProperty override val listingController: Listing.Controller<Product>
+) : Products.ViewModel() {
     override fun start() {
         listenToProducts()
     }
@@ -26,15 +27,15 @@ class ProductListViewModelImpl(
         )
     }
 
-    override fun handleIntent(intent: ProductList.Intent) {
+    override fun handleIntent(intent: Products.Intent) {
         when(intent) {
-            is ProductList.Intent.ChangeSearchQuery -> intent.to.takeIf { it != stateValue.searchQuery }
+            is Products.Intent.ChangeSearchQuery -> intent.to.takeIf { it != stateValue.searchQuery }
                     ?.let {
                         setState { copy(searchQuery = it) }
                         listenToProducts(it)
                     }
 
-            is ProductList.Intent.Select -> runEffect(ProductList.Effect.OpenProduct(intent.product))
+            is Products.Intent.Select -> runEffect(Products.Effect.OpenProduct(intent.product))
         }
     }
 }

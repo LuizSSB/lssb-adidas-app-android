@@ -4,7 +4,7 @@
 
     <string name="hint_product_search">Search products</string>
     <string name="label_products_search">Search</string>
-    <string name="title_products">Adidas</string>
+    <string name="title_products">Adidas products you will love</string>
 
     <string name="template_product_complete_name">%s %s</string>
     <string name="description_product_add_review">Write review</string>
@@ -13,4 +13,13 @@
     <string name="hint_review">Tell others about your experience</string>
     <string name="button_review">Send review</string>
     <string name="error_review_compose_nil_fields">Please provide a rating and a short review</string>
+    <string name="retry">Try Again</string>
+    <string name="error_listing_error">It seems you have no internet connection.</string>
+    <string name="label_listing_retry">Could you please check it?</string>
+    <string name="label_listing_empty">It is all gone for now.</string>
+    <string name="label_listing_suggestion">Check again later!</string>
+    <string name="button_listing_refresh">Check for new stuff</string>
+    <string name="description_listing_no_connection">No connection</string>
+    <string name="description_listing_empty">No items available</string>
+    <string name="background">background</string>
 </resources>
