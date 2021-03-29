@@ -2,6 +2,7 @@ package com.luizssb.adidas.confirmed.service.product.impl
 
 import com.luizssb.adidas.confirmed.service.retrofit.FakeCall
 import com.luizssb.adidas.confirmed.service.retrofit.FakeRemoteDTO
+import com.luizssb.adidas.confirmed.service.retrofit.RetrofitProductRESTAPI
 import com.luizssb.adidas.confirmed.utils.PageRef
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -9,9 +10,7 @@ import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.Matchers.empty
 import org.junit.Assert.*
 import org.junit.Test
-import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.doThrow
-import org.mockito.kotlin.mock
+import org.mockito.kotlin.*
 import retrofit2.HttpException
 
 @ExperimentalCoroutinesApi
@@ -20,9 +19,10 @@ class ProductServiceImplTest {
     fun getProducts_noQuery_returnsAll() = runBlocking {
         // arrange
         val data = listOf(FakeRemoteDTO.remoteProduct("1"), FakeRemoteDTO.remoteProduct("2"))
-        val impl = ProductServiceImpl(mock {
+        val api = mock<RetrofitProductRESTAPI> {
             on { getProducts() } doReturn FakeCall.forData(data)
-        })
+        }
+        val impl = ProductServiceImpl(api)
 
         // act
         val page = impl.getProducts(null, PageRef(0, 20))
@@ -33,6 +33,8 @@ class ProductServiceImplTest {
         repeat(data.size) {
             assertEquals(data[it].toAppType(), page.data[it])
         }
+        verify(api, times(1)).getProducts()
+        Unit
     }
 
     @Test
@@ -49,9 +51,10 @@ class ProductServiceImplTest {
         )
             .shuffled()
         val expectedData = data.filter { it != wrong }
-        val impl = ProductServiceImpl(mock {
+        val api: RetrofitProductRESTAPI = mock {
             on { getProducts() } doReturn FakeCall.forData(data)
-        })
+        }
+        val impl = ProductServiceImpl(api)
 
         // act
         val page = impl.getProducts(query, PageRef(0, 20))
@@ -62,6 +65,8 @@ class ProductServiceImplTest {
         repeat(expectedData.size) {
             assertEquals(expectedData[it].toAppType(), page.data[it])
         }
+        verify(api, times(1)).getProducts()
+        Unit
     }
 
     @Test
@@ -74,9 +79,10 @@ class ProductServiceImplTest {
             FakeRemoteDTO.remoteProduct("4"),
         )
             .shuffled()
-        val impl = ProductServiceImpl(mock {
+        val api: RetrofitProductRESTAPI = mock {
             on { getProducts() } doReturn FakeCall.forData(data)
-        })
+        }
+        val impl = ProductServiceImpl(api)
 
         // act
         val page1 = impl.getProducts(null, PageRef(0, 2))
@@ -96,6 +102,9 @@ class ProductServiceImplTest {
 
         assertFalse(page3.hasMore)
         assertThat(page3.data, `is`(empty()))
+
+        verify(api, times(3)).getProducts()
+        Unit
     }
 
     @Test
@@ -103,30 +112,36 @@ class ProductServiceImplTest {
         // arrange
         val id = "1"
         val data = FakeRemoteDTO.remoteProduct(id)
-        val impl = ProductServiceImpl(mock {
+        val api: RetrofitProductRESTAPI = mock {
             on { getProduct(id) } doReturn FakeCall.forData(data)
-        })
+        }
+        val impl = ProductServiceImpl(api)
 
         // act
         val result = impl.getProduct(data.id)
 
         // assert
         assertEquals(data.toAppType(), result)
+        verify(api, times(1)).getProduct(data.id)
+        Unit
     }
 
     @Test
     fun getProduct_notFound() = runBlocking {
         // arrange
         val id = "1"
-        val impl = ProductServiceImpl(mock {
+        val api: RetrofitProductRESTAPI = mock {
             on { getProduct(id) } doReturn FakeCall.forErrorCode(500)
-        })
+        }
+        val impl = ProductServiceImpl(api)
 
         // act
         val result = impl.getProduct(id)
 
         // assert
         assertNull(result)
+        verify(api, times(1)).getProduct(id)
+        Unit
     }
 
     @Test
@@ -134,9 +149,10 @@ class ProductServiceImplTest {
         // arrange
         val id = "1"
         val errorCode = 502
-        val impl = ProductServiceImpl(mock {
+        val api: RetrofitProductRESTAPI = mock {
             on { getProduct(id) } doReturn FakeCall.forErrorCode(errorCode)
-        })
+        }
+        val impl = ProductServiceImpl(api)
 
         // act
         val exception = try {
@@ -149,6 +165,8 @@ class ProductServiceImplTest {
         // assert
         assertNotNull(exception)
         assertThat(exception!!.code(), `is`(errorCode))
+        verify(api, times(1)).getProduct(id)
+        Unit
     }
 
     @Test
@@ -156,9 +174,10 @@ class ProductServiceImplTest {
         // arrange
         val id = "1"
         val exception = object : RuntimeException() { }
-        val impl = ProductServiceImpl(mock {
+        val api: RetrofitProductRESTAPI = mock {
             on { getProduct(id) } doThrow exception
-        })
+        }
+        val impl = ProductServiceImpl(api)
 
         // act
         val failed = try {
@@ -171,5 +190,7 @@ class ProductServiceImplTest {
         // assert
         assertNotNull(failed)
         assertEquals(exception.javaClass, failed!!.javaClass)
+        verify(api, times(1)).getProduct(id)
+        Unit
     }
 }

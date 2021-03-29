@@ -7,7 +7,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.doThrow
 import org.mockito.kotlin.mock
 
 @ExperimentalCoroutinesApi
@@ -44,6 +46,27 @@ class ProductRepositoryImplTest {
 
         // assert
         assertEquals(data, result)
+    }
+
+    @Test
+    fun getProduct_error_throws() = runBlocking {
+        // arrange
+        val exception = RuntimeException()
+        val service = mock<ProductService> {
+            onBlocking { getProduct(any()) } doThrow exception
+        }
+        val repository = ProductRepositoryImpl(mock(), service)
+
+        // act
+        val result = try {
+            repository.getProduct("")
+            null
+        } catch (ex: Throwable) {
+            ex
+        }
+
+        // assert
+        assertEquals(exception, result)
     }
 
     // luizssb: no way to test product(searchQuery: String?) because it's basically a proxy for

@@ -3,6 +3,8 @@ package com.luizssb.adidas.confirmed.service.review.impl
 import com.luizssb.adidas.confirmed.service.retrofit.FakeCall
 import com.luizssb.adidas.confirmed.service.retrofit.FakeRemoteDTO
 import com.luizssb.adidas.confirmed.service.retrofit.FakeRemoteDTO.Companion.remoteReview
+import com.luizssb.adidas.confirmed.service.retrofit.RetrofitProductRESTAPI
+import com.luizssb.adidas.confirmed.service.retrofit.RetrofitReviewRESTAPI
 import com.luizssb.adidas.confirmed.service.retrofit.dto.RemoteReview
 import com.luizssb.adidas.confirmed.service.retrofit.dto.RemoteReview.Companion.toRemoteType
 import com.luizssb.adidas.confirmed.utils.PageRef
@@ -13,6 +15,7 @@ import org.hamcrest.Matchers.empty
 import org.junit.Assert.*
 import org.junit.Test
 import org.mockito.kotlin.*
+import java.lang.RuntimeException
 
 @ExperimentalCoroutinesApi
 class ReviewServiceImplTest {
@@ -21,12 +24,10 @@ class ReviewServiceImplTest {
         // arrange
         val id = "1"
         val data = FakeRemoteDTO.remoteProduct(id)
-        val impl = ReviewServiceImpl(
-            mock {
-                on { getProduct(id) } doReturn FakeCall.forData(data)
-            },
-            mock()
-        )
+        val api: RetrofitProductRESTAPI = mock {
+            on { getProduct(id) } doReturn FakeCall.forData(data)
+        }
+        val impl = ReviewServiceImpl(api, mock())
 
         // act
         val page = impl.getReviews(id, PageRef(0, 20))
@@ -37,6 +38,8 @@ class ReviewServiceImplTest {
         repeat(data.reviews!!.size) {
             assertEquals(data.reviews!![it].toAppType(), page.data[it])
         }
+        verify(api, times(1)).getProduct(id)
+        Unit
     }
 
     @Test
@@ -44,12 +47,10 @@ class ReviewServiceImplTest {
         // arrange
         val id = "1"
         val data = FakeRemoteDTO.remoteProduct(id).copy(reviews = null)
-        val impl = ReviewServiceImpl(
-            mock {
-                on { getProduct(id) } doReturn FakeCall.forData(data)
-            },
-            mock()
-        )
+        val api: RetrofitProductRESTAPI = mock {
+                    on { getProduct(id) } doReturn FakeCall.forData(data)
+                }
+        val impl = ReviewServiceImpl(api, mock())
 
         // act
         val page = impl.getReviews(id, PageRef(0, 20))
@@ -57,6 +58,8 @@ class ReviewServiceImplTest {
         // assert
         assertFalse(page.hasMore)
         assertThat(page.data, `is`(empty()))
+        verify(api, times(1)).getProducts()
+        Unit
     }
 
     @Test
@@ -71,12 +74,10 @@ class ReviewServiceImplTest {
                 remoteReview(),
             ).shuffled())
         }
-        val impl = ReviewServiceImpl(
-            mock {
-                on { getProduct(id) } doReturn FakeCall.forData(data)
-            },
-            mock()
-        )
+        val api: RetrofitProductRESTAPI = mock {
+            on { getProduct(id) } doReturn FakeCall.forData(data)
+        }
+        val impl = ReviewServiceImpl(api, mock())
 
         // act
         val page1 = impl.getReviews(id, PageRef(0, 2))
@@ -96,6 +97,8 @@ class ReviewServiceImplTest {
 
         assertFalse(page3.hasMore)
         assertThat(page3.data, `is`(empty()))
+        verify(api, times(3)).getProducts()
+        Unit
     }
 
     @Test
@@ -103,22 +106,50 @@ class ReviewServiceImplTest {
         // arrange
         val id = "id"
         val data = remoteReview(id)
+        val dataConverted = data.toAppType().toRemoteType()
         lateinit var added: RemoteReview
-        val impl = ReviewServiceImpl(
-            mock {},
-            mock {
-                on { addReview(eq(id), any()) } doAnswer  {
-                    added = it.arguments[1] as RemoteReview
-                    FakeCall.forData(Unit)
-                }
+        val api: RetrofitReviewRESTAPI = mock {
+            on { addReview(eq(id), eq(dataConverted)) } doAnswer {
+                added = it.arguments[1] as RemoteReview
+                FakeCall.forData(Unit)
             }
-        )
+        }
+        val impl = ReviewServiceImpl(mock(), api)
 
         // act
         impl.addReview(data.toAppType())
 
         // assert
         // luizssb: makes the conversion, because of the Locale object
-        assertEquals(data.toAppType().toRemoteType(), added)
+        assertEquals(dataConverted, added)
+        verify(api, times(1)).addReview(eq(data.productId), eq(dataConverted))
+        Unit
+    }
+
+    @Test
+    fun addReview_error() = runBlocking {
+        // arrange
+        val id = "id"
+        val data = remoteReview(id)
+        val dataConverted = data.toAppType().toRemoteType()
+        val exception = object : RuntimeException() {}
+        val api: RetrofitReviewRESTAPI = mock {
+            on { addReview(eq(id), eq(dataConverted)) } doThrow exception
+        }
+        val impl = ReviewServiceImpl(mock(), api)
+
+        // act
+        val result = try {
+            impl.addReview(data.toAppType())
+            null
+        } catch (ex: Throwable) {
+            ex
+        }
+
+        // assert
+        assertNotNull(result)
+        assertEquals(exception.javaClass, result!!.javaClass)
+        verify(api, times(1)).addReview(eq(data.productId), eq(dataConverted))
+        Unit
     }
 }
