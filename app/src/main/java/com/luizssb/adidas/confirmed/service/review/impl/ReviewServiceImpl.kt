@@ -19,6 +19,8 @@ class ReviewServiceImpl(
 ) : ReviewService {
     override suspend fun getReviews(productId: String, pageRef: PageRef): PaginationResult<Review> =
         withContext(Dispatchers.IO) {
+            // luizssb: gets the reviews from the product REST API, because the reviews from the
+            // review API are all broken and insertion doest not seem to be working anyway.
 //            val reviews = reviewAPI.getReviews(productId).await()
 //                .map { it.toAppType() }
 

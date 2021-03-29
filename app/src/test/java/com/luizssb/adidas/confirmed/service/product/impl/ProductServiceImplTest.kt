@@ -1,5 +1,7 @@
 package com.luizssb.adidas.confirmed.service.product.impl
 
+import com.luizssb.adidas.confirmed.service.retrofit.FakeCall
+import com.luizssb.adidas.confirmed.service.retrofit.FakeRemoteData
 import com.luizssb.adidas.confirmed.utils.PageRef
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -7,7 +9,9 @@ import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.Matchers.empty
 import org.junit.Assert.*
 import org.junit.Test
-import org.mockito.kotlin.*
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.doThrow
+import org.mockito.kotlin.mock
 import retrofit2.HttpException
 
 @ExperimentalCoroutinesApi

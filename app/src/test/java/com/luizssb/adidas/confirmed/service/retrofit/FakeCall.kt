@@ -1,4 +1,4 @@
-package com.luizssb.adidas.confirmed.service.product.impl
+package com.luizssb.adidas.confirmed.service.retrofit
 
 import com.luizssb.adidas.confirmed.BuildConfig
 import okhttp3.MediaType

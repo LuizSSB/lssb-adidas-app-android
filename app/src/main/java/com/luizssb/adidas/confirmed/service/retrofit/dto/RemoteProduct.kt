@@ -5,7 +5,7 @@ package com.luizssb.adidas.confirmed.service.retrofit.dto
 import com.luizssb.adidas.confirmed.dto.Product
 import java.io.Serializable
 
-class RemoteProduct (
+data class RemoteProduct (
         val id: String,
         val name: String,
         val description: String,

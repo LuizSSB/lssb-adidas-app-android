@@ -1,4 +1,4 @@
-package com.luizssb.adidas.confirmed.service.product.impl
+package com.luizssb.adidas.confirmed.service.retrofit
 
 import com.luizssb.adidas.confirmed.service.retrofit.dto.RemoteProduct
 import com.luizssb.adidas.confirmed.service.retrofit.dto.RemoteReview
@@ -17,6 +17,8 @@ abstract class FakeRemoteData private constructor() {
                 review(id)
             )
         )
+
+        fun RemoteProduct.review() = review(id)
 
         fun review(productId: String = "id") = RemoteReview(
             productId,
