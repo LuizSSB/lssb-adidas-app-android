@@ -1,6 +1,5 @@
 package com.luizssb.adidas.confirmed.viewcontroller
 
-import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -21,29 +20,31 @@ abstract class ListingViewControllerEx private constructor() {
                 listView: ViewListGenericBinding,
                 adapter: PagingDataAdapter<T, TVH>
         ) {
-            val retry = { _: Any -> controller.handleIntent(Listing.Intent.Retry) }
+            val doRetry = { _: Any -> controller.handleIntent(Listing.Intent.Retry) }
+            val doRefresh = { _: Any -> controller.handleIntent(Listing.Intent.Refresh) }
 
             with(listView) {
-                buttonRetry.setOnClickListener(retry)
-                refresh.setOnRefreshListener { controller.handleIntent(Listing.Intent.Refresh) }
-                listView.list.adapter = adapter
-                    .withLoadStateHeaderAndFooter(
-                        GenericLoadStateAdapter(retry),
-                        GenericLoadStateAdapter(retry)
-                    )
+                buttonRetry.setOnClickListener(doRetry)
+                buttonRefresh.setOnClickListener(doRefresh)
+                refresh.setOnRefreshListener { doRefresh(Unit) }
+                listView.list.adapter = adapter.withLoadStateHeaderAndFooter(
+                    GenericLoadStateAdapter(doRetry),
+                    GenericLoadStateAdapter(doRetry)
+                )
             }
 
             lifecycleScope.launch {
                 adapter.loadStateFlow.collectLatest {
-                    controller.handleIntent(Listing.Intent.ChangeLoadState(it))
+                    controller.handleIntent(Listing.Intent.ChangeLoadState(it, adapter.itemCount))
                 }
             }
 
             controller.state.observe(viewLifecycleOwner) {
                 with(listView) {
                     refresh.isRefreshing = it.loadingRefresh
-                    refresh.isVisible = !it.refreshProblem
-                    containerProblem.isVisible = it.refreshProblem
+                    containerList.isVisible = it.contentType == Listing.ContentType.Listing
+                    containerProblem.isVisible = it.contentType == Listing.ContentType.RefreshProblem
+                    containerEmpty.isVisible = it.contentType == Listing.ContentType.Empty
                 }
 
                 lifecycleScope.launch {
@@ -55,7 +56,7 @@ abstract class ListingViewControllerEx private constructor() {
                 when(it) {
                     Listing.Effect.Refresh -> adapter.refresh()
 
-                    is Listing.Effect.Retry -> adapter.retry()
+                    Listing.Effect.Retry -> adapter.retry()
 
                     is Listing.Effect.ShowError ->
                         // TODO luizssb: replace with snackbar

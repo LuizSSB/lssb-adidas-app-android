@@ -17,10 +17,10 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="@dimen/size_listing_background_logo"
-            android:src="@drawable/background_logo" />
+            android:src="@drawable/background_no_connection"
+            android:contentDescription="@string/description_listing_no_connection" />
 
         <TextView
-            android:id="@+id/text_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_small"
@@ -28,7 +28,6 @@
             android:layout_marginTop="@dimen/margin_large" />
 
         <TextView
-            android:id="@+id/text_suggestion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/label_listing_retry"
@@ -43,16 +42,70 @@
 
     </LinearLayout>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/refresh">
+        android:orientation="vertical"
+        android:id="@+id/container_empty"
+        android:visibility="gone"
+        android:gravity="center">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/size_listing_background_logo"
+            android:src="@drawable/background_logo"
+            android:contentDescription="@string/description_listing_empty" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_default"
+            android:text="@string/label_listing_empty"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginHorizontal="@dimen/margin_large"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_default"
+            android:text="@string/label_listing_suggestion"
+            android:layout_marginTop="@dimen/margin_small"
+            android:gravity="center"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_refresh"
+            android:layout_marginTop="@dimen/margin_large"
+            android:text="@string/button_listing_refresh" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/container_list">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/background_logo"
+            android:contentDescription="@string/background"
+            android:layout_margin="@dimen/margin_large"
+            android:layout_gravity="center"/>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:id="@+id/list" />
+            android:id="@+id/refresh">
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:id="@+id/list" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </FrameLayout>
 </FrameLayout>

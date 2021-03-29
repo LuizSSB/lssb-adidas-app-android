@@ -9,7 +9,8 @@
     android:paddingLeft="@dimen/margin_default"
     android:paddingRight="0dp"
     android:paddingStart="@dimen/margin_default"
-    android:paddingEnd="0dp">
+    android:paddingEnd="0dp"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
