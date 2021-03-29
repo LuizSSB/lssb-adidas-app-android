@@ -32,7 +32,7 @@ val DIModule = module {
 
     // luizssb: services
     single<ProductService> { ProductServiceImpl(get()) }
-    single<ReviewService> { ReviewServiceImpl(get()) }
+    single<ReviewService> { ReviewServiceImpl(get(), get()) }
 
     // luizssb: repositores
     factory<ProductPagingSource.Factory>{ ProductPagingSourceImpl.Factory(get()) }

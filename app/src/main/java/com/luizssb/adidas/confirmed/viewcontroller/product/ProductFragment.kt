@@ -104,7 +104,7 @@ class ProductFragment : Fragment() {
                     }
             textPrice.text = state.product?.priceString
             textDescription.text = state.product?.description
-            imageHeader.setRemoteImage(state.product?.imgUrl)
+            imageHeader.setRemoteImage(state.product?.imageUrl)
         }
     }
 
