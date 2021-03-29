@@ -15,24 +15,111 @@
 
 default_platform(:android)
 
+desc "Checkouts to development branch"
+lane :checkout_develop do
+  ensure_git_status_clean
+  sh("git checkout develop")
+end
+
+desc "Checks if a version name follows the pattern major.minor.patch"
+lane :validate_version_name do |options|
+  versionName = options[:version_name]
+  if versionName == nil
+    raise "Needs 'version_name' option"
+  end
+
+  match = /^[0-9]+\.[0-9]+\.[0-9]+$/.match(versionName)
+  if (match == nil)
+    raise "App's version name has been altered by means other than the fastlane scripts. Fix it so that it follows the pattern major.minor.patch"
+  end
+end
+
+desc "Bumps a version name following the pattern major.minor.patch"
+lane :bump_version_name do |options|
+  bumpType = options[:bump_type]
+  if bumpType == nil
+    raise "Needs 'bump_type' option (expected values: patch, minor, major)"
+  end
+  
+  currentVersionName = options[:current_version_name]
+  if currentVersionName == nil
+    raise "Needs 'current_version_name' option"
+  end
+
+  validate_version_name(version_name: currentVersionName)
+
+  components = currentVersionName.split(".")
+  newComponents = case options[:bump_type]
+    when "major"
+      [String(Integer(components[0]) + 1), "0", "0"]
+    when "minor"
+      [components[0], String(Integer(components[1]) + 1), "0"]
+    when "patch"
+      [components[0], components[1], String(Integer(components[2]) + 1)]
+    end
+    newComponents.join(".")
+end
+
+desc "Adds changed versioning files to git, and commit"
+lane :commit_versioning do |options|
+  if options[:grouping] == nil
+    raise "Needs option 'grouping'"
+  end
+
+  version = android_get_version_name
+  build = android_get_version_code
+  git_commit(path: ["../*.*"], message: "Version #{version} (#{build}) of #{options[:grouping]}")
+end
+
+desc "Tags the current branch and push to remote"
+lane :tag_versioning do
+  add_git_tag(
+    prefix: "v",
+    build_number: android_get_version_code
+  )
+end
+
 platform :android do
   desc "Runs all the tests"
   lane :test do
     gradle(task: "test")
   end
 
-  desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :beta do
-    gradle(task: "clean assembleRelease")
-    crashlytics
-  
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
-  end
+  desc "Prepares a release version"
+  lane :release do |options|
+    bumpType = options[:bump_type]
+    if bump_type == nil
+      raise "Needs 'bump_type' options (expected values: patch, minor, major)"
+    end
 
-  desc "Deploy a new version to the Google Play"
-  lane :deploy do
-    gradle(task: "clean assembleRelease")
-    upload_to_play_store
+    checkout_develop
+
+    releaseBranch = "release/" + bumpType
+    sh("git checkout -b", releaseBranch)
+
+    test
+
+    newVersionName = bump_version_name(
+      current_version_name: android_get_version_name,
+      bump_type: options[:bump_type]
+    )
+    android_set_version_name(version_name: newVersionName)
+    android_set_version_code
+    
+    gradle(
+      task: "clean assembleRelease",
+      print_command: true,
+      flags: "--parallel",
+    )
+
+    commit_versioning(grouping: "release")
+
+    sh("git checkout master")
+    sh("git merge", releaseBranch, "--commit")
+    tag_versioning
+    push_to_git_remote
+    sh("git checkout develop")
+    sh("git branch -d master")
+    sh("git branch -d", releaseBranch)
   end
 end

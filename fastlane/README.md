@@ -15,22 +15,35 @@ Install _fastlane_ using
 or alternatively using `brew install fastlane`
 
 # Available Actions
+### checkout_develop
+```
+fastlane checkout_develop
+```
+Checkouts to development branch
+### validate_version_name
+```
+fastlane validate_version_name
+```
+Checks if a version name follows the pattern major.minor.patch
+### bump_version_name
+```
+fastlane bump_version_name
+```
+Bumps a version name following the pattern major.minor.patch
+
+----
+
 ## Android
 ### android test
 ```
 fastlane android test
 ```
 Runs all the tests
-### android beta
+### android release
 ```
-fastlane android beta
+fastlane android release
 ```
-Submit a new Beta Build to Crashlytics Beta
-### android deploy
-```
-fastlane android deploy
-```
-Deploy a new version to the Google Play
+Prepares a release version
 
 ----
 
