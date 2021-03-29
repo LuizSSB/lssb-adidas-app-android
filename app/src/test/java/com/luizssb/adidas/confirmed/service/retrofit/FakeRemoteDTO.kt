@@ -5,7 +5,7 @@ import com.luizssb.adidas.confirmed.service.retrofit.dto.RemoteReview
 
 abstract class FakeRemoteDTO private constructor() {
     companion object {
-        fun product(id: String = "id") = RemoteProduct(
+        fun remoteProduct(id: String = "id") = RemoteProduct(
             id,
             "name",
             "description",
@@ -13,14 +13,14 @@ abstract class FakeRemoteDTO private constructor() {
             1.23f,
             "EUR",
             reviews = listOf(
-                review(id),
-                review(id)
+                remoteReview(id),
+                remoteReview(id)
             )
         )
 
-        fun RemoteProduct.review() = review(id)
+        fun RemoteProduct.remoteReview() = remoteReview(id)
 
-        fun review(productId: String = "id") = RemoteReview(
+        fun remoteReview(productId: String = "id") = RemoteReview(
             productId,
             3,
             "text",

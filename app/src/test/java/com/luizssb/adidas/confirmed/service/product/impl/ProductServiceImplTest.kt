@@ -19,7 +19,7 @@ class ProductServiceImplTest {
     @Test
     fun getProducts_noQuery_returnsAll() = runBlocking {
         // arrange
-        val data = listOf(FakeRemoteDTO.product("1"), FakeRemoteDTO.product("2"))
+        val data = listOf(FakeRemoteDTO.remoteProduct("1"), FakeRemoteDTO.remoteProduct("2"))
         val impl = ProductServiceImpl(mock {
             on { getProducts() } doReturn FakeCall.forData(data)
         })
@@ -39,12 +39,12 @@ class ProductServiceImplTest {
     fun getProducts_query_returnsSome() = runBlocking {
         // arrange
         val query = "a a"
-        val wrong = FakeRemoteDTO.product("aa")
+        val wrong = FakeRemoteDTO.remoteProduct("aa")
         val data = listOf(
-            FakeRemoteDTO.product(query.toUpperCase()),
-            FakeRemoteDTO.product("$query $query"),
-            FakeRemoteDTO.product("$query b"),
-            FakeRemoteDTO.product("c $query"),
+            FakeRemoteDTO.remoteProduct(query.toUpperCase()),
+            FakeRemoteDTO.remoteProduct("$query $query"),
+            FakeRemoteDTO.remoteProduct("$query b"),
+            FakeRemoteDTO.remoteProduct("c $query"),
             wrong
         )
             .shuffled()
@@ -68,10 +68,10 @@ class ProductServiceImplTest {
     fun getProducts_pagination_hasMore() = runBlocking {
         // arrange
         val data = listOf(
-            FakeRemoteDTO.product("1"),
-            FakeRemoteDTO.product("2"),
-            FakeRemoteDTO.product("3"),
-            FakeRemoteDTO.product("4"),
+            FakeRemoteDTO.remoteProduct("1"),
+            FakeRemoteDTO.remoteProduct("2"),
+            FakeRemoteDTO.remoteProduct("3"),
+            FakeRemoteDTO.remoteProduct("4"),
         )
             .shuffled()
         val impl = ProductServiceImpl(mock {
@@ -102,7 +102,7 @@ class ProductServiceImplTest {
     fun getProduct_found() = runBlocking {
         // arrange
         val id = "1"
-        val data = FakeRemoteDTO.product(id)
+        val data = FakeRemoteDTO.remoteProduct(id)
         val impl = ProductServiceImpl(mock {
             on { getProduct(id) } doReturn FakeCall.forData(data)
         })
