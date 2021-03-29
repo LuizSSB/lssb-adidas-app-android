@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class ListControllerImpl<T : Any> : Listing.Controller<T>() {
+class ListingControllerImpl<T : Any> : Listing.Controller<T>() {
     override fun updateEntries(flow: Flow<PagingData<T>>) {
         viewModelScope.launch {
             flow.collectLatest {

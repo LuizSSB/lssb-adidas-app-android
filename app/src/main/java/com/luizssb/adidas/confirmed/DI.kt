@@ -15,11 +15,11 @@ import com.luizssb.adidas.confirmed.service.retrofit.RetrofitReviewRESTAPI
 import com.luizssb.adidas.confirmed.service.review.ReviewService
 import com.luizssb.adidas.confirmed.service.review.impl.ReviewServiceImpl
 import com.luizssb.adidas.confirmed.viewmodel.list.Listing
-import com.luizssb.adidas.confirmed.viewmodel.list.impl.ListControllerImpl
+import com.luizssb.adidas.confirmed.viewmodel.list.impl.ListingControllerImpl
 import com.luizssb.adidas.confirmed.viewmodel.product.ProductDetail
-import com.luizssb.adidas.confirmed.viewmodel.product.ProductList
+import com.luizssb.adidas.confirmed.viewmodel.product.Products
 import com.luizssb.adidas.confirmed.viewmodel.product.impl.ProductDetailViewModelImpl
-import com.luizssb.adidas.confirmed.viewmodel.product.impl.ProductListViewModelImpl
+import com.luizssb.adidas.confirmed.viewmodel.product.impl.ProductsViewModelImpl
 import com.luizssb.adidas.confirmed.viewmodel.review.Reviews
 import com.luizssb.adidas.confirmed.viewmodel.review.impl.ReviewsViewModelImpl
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -42,10 +42,10 @@ val DIModule = module {
 
     // luizssb: controllers
     // luizssb: parameter type can be Any because of type erasure
-    viewModel<Listing.Controller<Any>> { ListControllerImpl() }
+    viewModel<Listing.Controller<Any>> { ListingControllerImpl() }
 
     // luizssb: view models
-    viewModel<ProductList.ViewModel> { ProductListViewModelImpl(get(), get()) }
+    viewModel<Products.ViewModel> { ProductsViewModelImpl(get(), get()) }
     viewModel<ProductDetail.ViewModel> { params -> ProductDetailViewModelImpl(get(), params.get()) }
     viewModel<Reviews.ViewModel> { params -> ReviewsViewModelImpl(get(), get(), params.get()) }
 }

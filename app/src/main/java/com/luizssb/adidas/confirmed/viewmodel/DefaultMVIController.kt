@@ -35,4 +35,8 @@ abstract class DefaultMVIController<TState, TEffects, TIntent>(initialValue: TSt
             _effects.send(effect)
         }
     }
+
+    internal fun didClear() {
+        super.onCleared()
+    }
 }

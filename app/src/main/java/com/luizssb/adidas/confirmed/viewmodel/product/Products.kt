@@ -4,7 +4,7 @@ import com.luizssb.adidas.confirmed.dto.Product
 import com.luizssb.adidas.confirmed.viewmodel.MVIViewModel
 import com.luizssb.adidas.confirmed.viewmodel.list.Listing
 
-abstract class ProductList private constructor() {
+abstract class Products private constructor() {
     data class State(
             val searchQuery: String? = null
     )
