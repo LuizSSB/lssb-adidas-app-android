@@ -94,9 +94,15 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$versions.glide"
     annotationProcessor "com.github.bumptech.glide:compiler:$versions.glide"
 
+    testImplementation "androidx.test:core-ktx:$testVersions.androidx.core_ktx"
+    testImplementation "androidx.arch.core:core-testing:$testVersions.androidx.core"
+
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$testVersions.coroutines"
     testImplementation "junit:junit:$testVersions.junit"
-    androidTestImplementation "org.mockito:mockito-core:$testVersions.mockito"
-    androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:$testVersions.dexmaker"
+    testImplementation "org.hamcrest:hamcrest-all:$testVersions.hamcrest"
+    testImplementation "org.robolectric:robolectric:$testVersions.robolectric"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:$testVersions.mockito"
+    testImplementation "com.linkedin.dexmaker:dexmaker-mockito:$testVersions.dexmaker"
 
     androidTestImplementation "androidx.test.ext:junit:$androidTestVersions.junit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidTestVersions.espresso"
