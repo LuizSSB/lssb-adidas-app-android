@@ -74,7 +74,6 @@ class ProductFragment : Fragment() {
                 .apply {
                     setSupportActionBar(toolbar)
                     enableActionBarBackButton()
-                    listReviews.adapter = reviewsAdapter
                     buttonAddReview.setOnClickListener {
                         reviewsViewModel.handleIntent(Reviews.Intent.ComposeReview)
                     }
@@ -90,7 +89,12 @@ class ProductFragment : Fragment() {
             effects.observeOnLifecycle(viewLifecycleOwner, ::render)
         }
 
-        justObserveListing(reviewsViewModel.listingController, layout.refreshReviews, reviewsAdapter)
+        justObserveListing(
+            reviewsViewModel.listingController,
+            layout.refreshReviews,
+            layout.listReviews,
+            reviewsAdapter
+        )
 
         return layout.root
     }

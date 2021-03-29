@@ -7,24 +7,31 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.luizssb.adidas.confirmed.utils.extensions.FlowEx.Companion.observeOnLifecycle
+import com.luizssb.adidas.confirmed.viewcontroller.adapter.GenericLoadStateAdapter
 import com.luizssb.adidas.confirmed.viewmodel.list.Listing
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 abstract class ListingViewControllerEx private constructor() {
     companion object {
-        fun <T : Any, TVH: RecyclerView.ViewHolder> Fragment.observeListing(
+        fun <T : Any, TVH: RecyclerView.ViewHolder> Fragment.justObserveListing(
                 controller: Listing.Controller<T>,
                 refresh: SwipeRefreshLayout,
+                list: RecyclerView,
                 adapter: PagingDataAdapter<T, TVH>
         ) {
             refresh.setOnRefreshListener { controller.handleIntent(Listing.Intent.Refresh) }
 
-            lifecycleScope.launch {
-                adapter.loadStateFlow.collectLatest {
-                    controller.handleIntent(Listing.Intent.ChangeLoadState(it))
+            list.adapter = adapter
+                .apply {
+                    addLoadStateListener { loadState ->
+                        controller.handleIntent(Listing.Intent.ChangeLoadState(loadState))
+                    }
                 }
-            }
+                .withLoadStateHeaderAndFooter(
+                    GenericLoadStateAdapter { adapter.retry() },
+                    GenericLoadStateAdapter { adapter.retry() }
+                )
 
             controller.state.observe(viewLifecycleOwner) {
                 refresh.isRefreshing = it.loadingRefresh

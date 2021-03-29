@@ -13,4 +13,5 @@
     <string name="hint_review">Tell others about your experience</string>
     <string name="button_review">Send review</string>
     <string name="error_review_compose_nil_fields">Please provide a rating and a short review</string>
+    <string name="retry">Retry</string>
 </resources>

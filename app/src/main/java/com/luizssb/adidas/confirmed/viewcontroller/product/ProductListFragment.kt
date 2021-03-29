@@ -45,7 +45,6 @@ class ProductListFragment : Fragment() {
         layout = FragmentProductListBinding.inflate(inflater, container, false)
                 .apply {
                     configureMenu(toolbar)
-                    list.adapter = itemAdapter
                 }
 
         viewModel.let {
@@ -53,7 +52,7 @@ class ProductListFragment : Fragment() {
             it.effects.observeOnLifecycle(viewLifecycleOwner, ::render)
         }
 
-        justObserveListing(viewModel.listingController, layout.refresh, itemAdapter)
+        justObserveListing(viewModel.listingController, layout.refresh, layout.list, itemAdapter)
 
         return layout.root
     }
