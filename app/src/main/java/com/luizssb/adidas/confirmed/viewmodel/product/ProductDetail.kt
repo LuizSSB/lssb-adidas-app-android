@@ -1,7 +1,7 @@
 package com.luizssb.adidas.confirmed.viewmodel.product
 
 import com.luizssb.adidas.confirmed.dto.Product
-import com.luizssb.adidas.confirmed.viewmodel.DefaultBaseViewModel
+import com.luizssb.adidas.confirmed.viewmodel.MVIViewModel
 
 abstract class ProductDetail private constructor() {
     data class State(
@@ -16,5 +16,5 @@ abstract class ProductDetail private constructor() {
 
     abstract class Intent private constructor()
 
-    abstract class ViewModel : DefaultBaseViewModel<State, Effect, Intent>(State())
+    abstract class ViewModel : MVIViewModel<State, Effect, Intent>(State())
 }

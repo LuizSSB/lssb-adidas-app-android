@@ -14,11 +14,11 @@ import com.luizssb.adidas.confirmed.service.retrofit.RetrofitProductRESTAPI
 import com.luizssb.adidas.confirmed.service.retrofit.RetrofitReviewRESTAPI
 import com.luizssb.adidas.confirmed.service.review.ReviewService
 import com.luizssb.adidas.confirmed.service.review.impl.ReviewServiceImpl
-import com.luizssb.adidas.confirmed.viewmodel.product.ProductDetail
-import com.luizssb.adidas.confirmed.viewmodel.product.impl.ProductDetailViewModelImpl
 import com.luizssb.adidas.confirmed.viewmodel.list.Listing
 import com.luizssb.adidas.confirmed.viewmodel.list.impl.ListControllerImpl
+import com.luizssb.adidas.confirmed.viewmodel.product.ProductDetail
 import com.luizssb.adidas.confirmed.viewmodel.product.ProductList
+import com.luizssb.adidas.confirmed.viewmodel.product.impl.ProductDetailViewModelImpl
 import com.luizssb.adidas.confirmed.viewmodel.product.impl.ProductListViewModelImpl
 import com.luizssb.adidas.confirmed.viewmodel.review.ReviewList
 import com.luizssb.adidas.confirmed.viewmodel.review.impl.ReviewListViewModelImpl
@@ -45,8 +45,7 @@ val DIModule = module {
     viewModel<Listing.Controller<Any>> { ListControllerImpl() }
 
     // luizssb: view models
-    factory<ProductList.ViewModel> { ProductListViewModelImpl(get()) }
-    factory<ProductDetail.ViewModel> { params -> ProductDetailViewModelImpl(get(), params.get()) }
-    factory<ReviewList.ViewModel> { params -> ReviewListViewModelImpl(get(), params.get()) }
     viewModel<ProductList.ViewModel> { ProductListViewModelImpl(get(), get()) }
+    viewModel<ProductDetail.ViewModel> { params -> ProductDetailViewModelImpl(get(), params.get()) }
+    viewModel<ReviewList.ViewModel> { params -> ReviewListViewModelImpl(get(), get(), params.get()) }
 }
