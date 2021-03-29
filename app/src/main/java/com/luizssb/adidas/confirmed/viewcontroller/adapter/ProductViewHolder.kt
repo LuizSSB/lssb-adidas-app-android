@@ -36,7 +36,7 @@ class ProductViewHolder(
             if (item == null) {
                 image.setImageDrawable(null)
             } else {
-                image.setRemoteImage(fixdItem.imgUrl)
+                image.setRemoteImage(fixdItem.imageUrl)
             }
         }
     }

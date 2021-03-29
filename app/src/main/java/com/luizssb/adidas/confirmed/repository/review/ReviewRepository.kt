@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface ReviewRepository {
     fun reviews(productId: String): Flow<PagingData<Review>>
 
-    suspend fun addReview(productId: String, review: Review)
+    suspend fun addReview(review: Review)
 }

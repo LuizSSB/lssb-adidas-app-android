@@ -2,30 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    <LinearLayout
+    android:orientation="vertical"
+    android:padding="@dimen/margin_large">
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
-        <TextView
+        android:id="@+id/text_name"
+        android:textSize="@dimen/text_size_default"
+        android:text="@string/app_name" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rating"
+        android:theme="@style/Theme.App.Rating"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_large" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_large">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Success"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu erat tincidunt lacus fermentum rutrum."
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-        <Button
-            android:id="@+id/buttonOk"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:text="Ok"
-            android:textColor="#FFF" />
-    </LinearLayout>
+            android:id="@+id/edit_text"
+            android:hint="@string/hint_review"
+            android:inputType="text|textAutoCorrect"
+            android:background="@android:color/transparent" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_send"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/margin_large"
+        android:text="@string/button_review" />
 </LinearLayout>

@@ -9,7 +9,7 @@
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/secondary_200</item>
         <item name="colorSecondaryVariant">@color/secondary_700</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnSecondary">@color/white</item>
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
@@ -25,5 +25,14 @@
 
     <style name="Theme.App.Splash" parent="Theme.App">
         <item name="android:windowBackground">@drawable/splash</item>
+    </style>
+
+    <style name="Theme.App.Rating">
+        <!-- luizssb: hardcoded because this should be the only place we use it -->
+        <item name="android:max">5</item>
+        <item name="android:numStars">5</item>
+
+        <item name="android:stepSize">1</item>
+        <item name="colorControlActivated">@color/background_rating_selected</item>
     </style>
 </resources>
