@@ -10,17 +10,20 @@ class Listing {
         val entries: PagingData<T> = PagingData.empty(),
         val loadingPrevious: Boolean = false,
         val loadingMore: Boolean = false,
-        val loadingRefresh: Boolean = false
+        val loadingRefresh: Boolean = false,
+        val refreshProblem: Boolean = false
     )
 
     abstract class Effect private constructor() {
         data class ShowError(val error: Throwable) : Effect()
         object Refresh : Effect()
+        object Retry : Effect()
     }
 
     abstract class Intent private constructor() {
         data class ChangeLoadState(val state: CombinedLoadStates) : Intent()
         object Refresh : Intent()
+        object Retry : Intent()
     }
 
     abstract class Controller<T : Any> : DefaultMVIController<State<T>, Effect, Intent>(State()) {

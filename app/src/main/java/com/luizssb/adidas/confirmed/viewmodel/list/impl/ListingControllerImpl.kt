@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.PagingData
 import com.luizssb.adidas.confirmed.utils.extensions.CombinedLoadStatesEx.Companion.error
+import com.luizssb.adidas.confirmed.utils.extensions.LoadStateEx.Companion.error
 import com.luizssb.adidas.confirmed.utils.extensions.LoadStateEx.Companion.loading
 import com.luizssb.adidas.confirmed.viewmodel.list.Listing
 import kotlinx.coroutines.flow.Flow
@@ -19,19 +20,26 @@ class ListingControllerImpl<T : Any> : Listing.Controller<T>() {
         }
     }
 
-
     override fun handleIntent(intent: Listing.Intent) {
         when(intent) {
-            is Listing.Intent.ChangeLoadState -> handleLoadStateChange(intent.state)
-
             Listing.Intent.Refresh -> runEffect(Listing.Effect.Refresh)
+
+            Listing.Intent.Retry -> runEffect(Listing.Effect.Retry)
+
+            is Listing.Intent.ChangeLoadState -> handleLoadStateChange(intent.state)
         }
     }
 
     private fun handleLoadStateChange(loadStates: CombinedLoadStates) {
-        loadStates.error?.let {
-            runEffect(Listing.Effect.ShowError(it))
+        println("REFRESHING ${loadStates.refresh.loading}")
+        if (loadStates.error == null) {
+            setState { copy(refreshProblem = false) }
+        } else {
+            if (loadStates.error == loadStates.refresh.error) {
+                setState { copy(refreshProblem = true) }
+            }
         }
+
 
         setState(forceUpdate = false) {
             copy(
