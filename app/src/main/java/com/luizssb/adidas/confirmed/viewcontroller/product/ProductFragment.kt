@@ -18,7 +18,7 @@ import com.luizssb.adidas.confirmed.utils.extensions.FragmentEx.Companion.setSup
 import com.luizssb.adidas.confirmed.utils.extensions.ImageViewEx.Companion.setRemoteImage
 import com.luizssb.adidas.confirmed.utils.extensions.ProductEx.Companion.getCompleteName
 import com.luizssb.adidas.confirmed.viewcontroller.CustomAlertDialog
-import com.luizssb.adidas.confirmed.viewcontroller.ListingViewControllerEx.Companion.observeListing
+import com.luizssb.adidas.confirmed.viewcontroller.ListingViewControllerEx.Companion.justObserveListing
 import com.luizssb.adidas.confirmed.viewcontroller.adapter.ReviewsAdapter
 import com.luizssb.adidas.confirmed.viewmodel.product.ProductDetail
 import com.luizssb.adidas.confirmed.viewmodel.review.Reviews
@@ -90,7 +90,7 @@ class ProductFragment : Fragment() {
             effects.observeOnLifecycle(viewLifecycleOwner, ::render)
         }
 
-        observeListing(reviewsViewModel.listingController, layout.refreshReviews, reviewsAdapter)
+        justObserveListing(reviewsViewModel.listingController, layout.refreshReviews, reviewsAdapter)
 
         return layout.root
     }

@@ -12,7 +12,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.luizssb.adidas.confirmed.R
 import com.luizssb.adidas.confirmed.databinding.FragmentProductListBinding
 import com.luizssb.adidas.confirmed.utils.extensions.FlowEx.Companion.observeOnLifecycle
-import com.luizssb.adidas.confirmed.viewcontroller.ListingViewControllerEx.Companion.observeListing
+import com.luizssb.adidas.confirmed.viewcontroller.ListingViewControllerEx.Companion.justObserveListing
 import com.luizssb.adidas.confirmed.viewcontroller.adapter.ProductsAdapter
 import com.luizssb.adidas.confirmed.viewmodel.product.Products
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -53,7 +53,7 @@ class ProductListFragment : Fragment() {
             it.effects.observeOnLifecycle(viewLifecycleOwner, ::render)
         }
 
-        observeListing(viewModel.listingController, layout.refresh, itemAdapter)
+        justObserveListing(viewModel.listingController, layout.refresh, itemAdapter)
 
         return layout.root
     }

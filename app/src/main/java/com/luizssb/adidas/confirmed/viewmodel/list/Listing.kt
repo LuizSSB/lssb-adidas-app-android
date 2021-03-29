@@ -24,6 +24,6 @@ class Listing {
     }
 
     abstract class Controller<T : Any> : DefaultMVIController<State<T>, Effect, Intent>(State()) {
-        abstract fun updateEntries(flow: Flow<PagingData<T>>)
+        internal abstract fun updateEntries(flow: Flow<PagingData<T>>)
     }
 }
