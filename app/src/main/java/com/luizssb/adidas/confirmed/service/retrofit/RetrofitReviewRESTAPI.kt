@@ -6,13 +6,14 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface RetrofitReviewRESTAPI {
-    @GET("/review/{productId}")
-    fun getReviews(productId: String): Call<List<RemoteReview>>
+    @GET("/reviews/{productId}")
+    fun getReviews(@Path("productId") productId: String): Call<List<RemoteReview>>
 
-    @POST("/review/{productId}")
-    fun addReview(productId: String, @Body review: RemoteReview): Call<Unit>
+    @POST("/reviews/{productId}")
+    fun addReview(@Path("productId") productId: String, @Body review: RemoteReview): Call<Unit>
 
     companion object {
         val default: RetrofitReviewRESTAPI by lazy {
