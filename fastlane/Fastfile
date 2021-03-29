@@ -49,7 +49,7 @@ lane :bump_version_name do |options|
   validate_version_name(version_name: currentVersionName)
 
   components = currentVersionName.split(".")
-  newComponents = case options[:bump_type]
+  newComponents = case bumpType
     when "major"
       [String(Integer(components[0]) + 1), "0", "0"]
     when "minor"
@@ -68,7 +68,7 @@ lane :commit_versioning do |options|
 
   version = android_get_version_name
   build = android_get_version_code
-  git_commit(path: ["../*.*"], message: "Version #{version} (#{build}) of #{options[:grouping]}")
+  git_commit(path: ["."], message: "Version #{version} (#{build}) of #{options[:grouping]}")
 end
 
 desc "Tags the current branch and push to remote"
@@ -88,14 +88,14 @@ platform :android do
   desc "Prepares a release version"
   lane :release do |options|
     bumpType = options[:bump_type]
-    if bump_type == nil
+    if bumpType == nil
       raise "Needs 'bump_type' options (expected values: patch, minor, major)"
     end
 
     checkout_develop
 
     releaseBranch = "release/" + bumpType
-    sh("git checkout -b", releaseBranch)
+    sh("git checkout -b "+ releaseBranch)
 
     test
 
@@ -115,11 +115,15 @@ platform :android do
     commit_versioning(grouping: "release")
 
     sh("git checkout master")
-    sh("git merge", releaseBranch, "--commit")
+    sh("git merge " + releaseBranch + " --commit")
     tag_versioning
     push_to_git_remote
+    
     sh("git checkout develop")
+    sh("git merge " + releaseBranch + " --commit")
+    push_to_git_remote
+
     sh("git branch -d master")
-    sh("git branch -d", releaseBranch)
+    sh("git branch -d " + releaseBranch)
   end
 end
