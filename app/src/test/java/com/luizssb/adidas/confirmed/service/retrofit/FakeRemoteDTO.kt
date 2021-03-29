@@ -3,7 +3,7 @@ package com.luizssb.adidas.confirmed.service.retrofit
 import com.luizssb.adidas.confirmed.service.retrofit.dto.RemoteProduct
 import com.luizssb.adidas.confirmed.service.retrofit.dto.RemoteReview
 
-abstract class FakeRemoteData private constructor() {
+abstract class FakeRemoteDTO private constructor() {
     companion object {
         fun product(id: String = "id") = RemoteProduct(
             id,

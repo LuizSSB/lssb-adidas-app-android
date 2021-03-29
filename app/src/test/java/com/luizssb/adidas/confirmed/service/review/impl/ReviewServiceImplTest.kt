@@ -1,8 +1,8 @@
 package com.luizssb.adidas.confirmed.service.review.impl
 
 import com.luizssb.adidas.confirmed.service.retrofit.FakeCall
-import com.luizssb.adidas.confirmed.service.retrofit.FakeRemoteData
-import com.luizssb.adidas.confirmed.service.retrofit.FakeRemoteData.Companion.review
+import com.luizssb.adidas.confirmed.service.retrofit.FakeRemoteDTO
+import com.luizssb.adidas.confirmed.service.retrofit.FakeRemoteDTO.Companion.review
 import com.luizssb.adidas.confirmed.service.retrofit.dto.RemoteReview
 import com.luizssb.adidas.confirmed.service.retrofit.dto.RemoteReview.Companion.toRemoteType
 import com.luizssb.adidas.confirmed.utils.PageRef
@@ -20,7 +20,7 @@ class ReviewServiceImplTest {
     fun getReviews_returnsAll() = runBlocking {
         // arrange
         val id = "1"
-        val data = FakeRemoteData.product(id)
+        val data = FakeRemoteDTO.product(id)
         val impl = ReviewServiceImpl(
             mock {
                 on { getProduct(id) } doReturn FakeCall.forData(data)
@@ -43,7 +43,7 @@ class ReviewServiceImplTest {
     fun getReviews_returnsNone() = runBlocking {
         // arrange
         val id = "1"
-        val data = FakeRemoteData.product(id).copy(reviews = null)
+        val data = FakeRemoteDTO.product(id).copy(reviews = null)
         val impl = ReviewServiceImpl(
             mock {
                 on { getProduct(id) } doReturn FakeCall.forData(data)
@@ -63,7 +63,7 @@ class ReviewServiceImplTest {
     fun getReviews_pagination_hasMore() = runBlocking {
         // arrange
         val id = "1"
-        val data = FakeRemoteData.product(id).run {
+        val data = FakeRemoteDTO.product(id).run {
             copy(reviews = listOf(
                 review(),
                 review(),

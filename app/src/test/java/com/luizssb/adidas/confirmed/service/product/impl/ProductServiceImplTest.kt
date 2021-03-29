@@ -1,7 +1,7 @@
 package com.luizssb.adidas.confirmed.service.product.impl
 
 import com.luizssb.adidas.confirmed.service.retrofit.FakeCall
-import com.luizssb.adidas.confirmed.service.retrofit.FakeRemoteData
+import com.luizssb.adidas.confirmed.service.retrofit.FakeRemoteDTO
 import com.luizssb.adidas.confirmed.utils.PageRef
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -19,7 +19,7 @@ class ProductServiceImplTest {
     @Test
     fun getProducts_noQuery_returnsAll() = runBlocking {
         // arrange
-        val data = listOf(FakeRemoteData.product("1"), FakeRemoteData.product("2"))
+        val data = listOf(FakeRemoteDTO.product("1"), FakeRemoteDTO.product("2"))
         val impl = ProductServiceImpl(mock {
             on { getProducts() } doReturn FakeCall.forData(data)
         })
@@ -39,12 +39,12 @@ class ProductServiceImplTest {
     fun getProducts_query_returnsSome() = runBlocking {
         // arrange
         val query = "a a"
-        val wrong = FakeRemoteData.product("aa")
+        val wrong = FakeRemoteDTO.product("aa")
         val data = listOf(
-            FakeRemoteData.product(query.toUpperCase()),
-            FakeRemoteData.product("$query $query"),
-            FakeRemoteData.product("$query b"),
-            FakeRemoteData.product("c $query"),
+            FakeRemoteDTO.product(query.toUpperCase()),
+            FakeRemoteDTO.product("$query $query"),
+            FakeRemoteDTO.product("$query b"),
+            FakeRemoteDTO.product("c $query"),
             wrong
         )
             .shuffled()
@@ -68,10 +68,10 @@ class ProductServiceImplTest {
     fun getProducts_pagination_hasMore() = runBlocking {
         // arrange
         val data = listOf(
-            FakeRemoteData.product("1"),
-            FakeRemoteData.product("2"),
-            FakeRemoteData.product("3"),
-            FakeRemoteData.product("4"),
+            FakeRemoteDTO.product("1"),
+            FakeRemoteDTO.product("2"),
+            FakeRemoteDTO.product("3"),
+            FakeRemoteDTO.product("4"),
         )
             .shuffled()
         val impl = ProductServiceImpl(mock {
@@ -102,7 +102,7 @@ class ProductServiceImplTest {
     fun getProduct_found() = runBlocking {
         // arrange
         val id = "1"
-        val data = FakeRemoteData.product(id)
+        val data = FakeRemoteDTO.product(id)
         val impl = ProductServiceImpl(mock {
             on { getProduct(id) } doReturn FakeCall.forData(data)
         })
