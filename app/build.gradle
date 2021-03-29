@@ -42,7 +42,8 @@ android {
     }
 
     buildTypes {
-        def serviceUrlHost = "http://localhost"
+        def localIp = getLocalIPv4()
+        def serviceUrlHost = "http://$localIp"
         def serviceUrlProduct = "$serviceUrlHost:3001/"
         def serviceUrlReview = "$serviceUrlHost:3002/"
         def serviceSecondsTimeout = "10L"
@@ -59,27 +60,6 @@ android {
             buildConfigField("String", "SERVICE_URL_PRODUCT", "\"$serviceUrlProduct\"")
             buildConfigField("String", "SERVICE_URL_REVIEW", "\"$serviceUrlReview\"")
             buildConfigField("Long", "SERVICE_SECONDS_TIMEOUT", serviceSecondsTimeout)
-        }
-
-        def localIp = getLocalIPv4()
-        if (localIp != null) {
-            def localIpUrlHost = "http://localhost"
-            def localIpUrlProduct = "$localIpUrlHost:3001/"
-            def localIpUrlReview = "$localIpUrlHost:3002/"
-
-            release_localIP {
-                minifyEnabled false
-                proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
-                buildConfigField("String", "SERVICE_URL_PRODUCT", "\"$localIpUrlProduct\"")
-                buildConfigField("String", "SERVICE_URL_REVIEW", "\"$localIpUrlReview\"")
-                buildConfigField("Long", "SERVICE_SECONDS_TIMEOUT", serviceSecondsTimeout)
-            }
-
-            debug_localIP {
-                buildConfigField("String", "SERVICE_URL_PRODUCT", "\"$localIpUrlProduct\"")
-                buildConfigField("String", "SERVICE_URL_REVIEW", "\"$localIpUrlReview\"")
-                buildConfigField("Long", "SERVICE_SECONDS_TIMEOUT", serviceSecondsTimeout)
-            }
         }
     }
 
