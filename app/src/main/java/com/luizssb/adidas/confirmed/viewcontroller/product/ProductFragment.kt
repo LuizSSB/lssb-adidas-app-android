@@ -5,23 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import com.luizssb.adidas.confirmed.R
 import com.luizssb.adidas.confirmed.databinding.FragmentProductBinding
 import com.luizssb.adidas.confirmed.utils.extensions.FlowEx.Companion.observeOnLifecycle
 import com.luizssb.adidas.confirmed.utils.extensions.FragmentEx.Companion.enableActionBarBackButton
 import com.luizssb.adidas.confirmed.utils.extensions.FragmentEx.Companion.setSupportActionBar
 import com.luizssb.adidas.confirmed.utils.extensions.ImageViewEx.Companion.setRemoteImage
 import com.luizssb.adidas.confirmed.utils.extensions.ProductEx.Companion.getCompleteName
+import com.luizssb.adidas.confirmed.viewcontroller.ListingViewControllerEx.Companion.observeListing
 import com.luizssb.adidas.confirmed.viewcontroller.adapter.ReviewsAdapter
 import com.luizssb.adidas.confirmed.viewmodel.product.ProductDetail
 import com.luizssb.adidas.confirmed.viewmodel.review.ReviewList
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.DefinitionParameters
 
@@ -44,12 +40,6 @@ class ProductFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        lifecycleScope.launch {
-            reviewsAdapter.loadStateFlow.collectLatest {
-                reviewsViewModel.handleIntent(ReviewList.Intent.ChangeLoadState(it))
-            }
-        }
-
         detailViewModel.startOrResume()
         reviewsViewModel.startOrResume()
     }
@@ -63,15 +53,9 @@ class ProductFragment : Fragment() {
                 .apply {
                     setSupportActionBar(toolbar)
                     enableActionBarBackButton()
-                    refreshReviews.setOnRefreshListener { reviewsViewModel.handleIntent(ReviewList.Intent.Refresh) }
                     listReviews.adapter = reviewsAdapter
                     buttonAddReview.setOnClickListener {
 
-                        val builder = AlertDialog.Builder(requireActivity())
-                        val dialogView: View = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_review, root, false)
-                        builder.setView(dialogView)
-                        val alertDialog: AlertDialog = builder.create()
-                        alertDialog.show()
                     }
                 }
 
@@ -84,6 +68,8 @@ class ProductFragment : Fragment() {
             state.observe(viewLifecycleOwner, Observer(::render))
             effects.observeOnLifecycle(viewLifecycleOwner, ::render)
         }
+
+        observeListing(reviewsViewModel.listingController, layout.refreshReviews, reviewsAdapter)
 
         return layout.root
     }
@@ -105,18 +91,11 @@ class ProductFragment : Fragment() {
         }
     }
 
-
     private fun render(state: ReviewList.State) {
-        layout.refreshReviews.isRefreshing = state.loadingRefresh
-        lifecycleScope.launch {
-            reviewsAdapter.submitData(state.reviews)
-        }
     }
 
     private fun render(effect: ReviewList.Effect) {
         when(effect) {
-            ReviewList.Effect.Refresh -> reviewsAdapter.refresh()
-
             is ReviewList.Effect.ShowError ->
                 // TODO luizssb: replace with snackbar
                 Toast.makeText(requireContext(), effect.error.message, Toast.LENGTH_SHORT).show()
