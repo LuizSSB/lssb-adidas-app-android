@@ -33,6 +33,12 @@ abstract class ListingViewControllerEx private constructor() {
                     GenericLoadStateAdapter { adapter.retry() }
                 )
 
+            lifecycleScope.launch {
+                adapter.loadStateFlow.collectLatest {
+                    controller.handleIntent(Listing.Intent.ChangeLoadState(it))
+                }
+            }
+
             controller.state.observe(viewLifecycleOwner) {
                 refresh.isRefreshing = it.loadingRefresh
                 lifecycleScope.launch {

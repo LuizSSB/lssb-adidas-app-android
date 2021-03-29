@@ -10,14 +10,14 @@ class ReviewPagingSourceImpl(
         private val service: ReviewService,
         private val productId: String
 ) : ReviewPagingSource() {
-    private val inner by lazy {
+    private val proxy by lazy {
         DefaultPagingSourceImpl { service.getReviews(productId, it) }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Review>) = inner.getRefreshKey(state)
+    override fun getRefreshKey(state: PagingState<Int, Review>) = proxy.getRefreshKey(state)
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Review> =
-        inner.load(params)
+        proxy.load(params)
 
     class Factory(private val service: ReviewService) : ReviewPagingSource.Factory {
         override fun invoke(productId: String) = ReviewPagingSourceImpl(service, productId)
