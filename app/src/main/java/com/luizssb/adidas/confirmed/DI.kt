@@ -20,8 +20,8 @@ import com.luizssb.adidas.confirmed.viewmodel.product.ProductDetail
 import com.luizssb.adidas.confirmed.viewmodel.product.ProductList
 import com.luizssb.adidas.confirmed.viewmodel.product.impl.ProductDetailViewModelImpl
 import com.luizssb.adidas.confirmed.viewmodel.product.impl.ProductListViewModelImpl
-import com.luizssb.adidas.confirmed.viewmodel.review.ReviewList
-import com.luizssb.adidas.confirmed.viewmodel.review.impl.ReviewListViewModelImpl
+import com.luizssb.adidas.confirmed.viewmodel.review.Reviews
+import com.luizssb.adidas.confirmed.viewmodel.review.impl.ReviewsViewModelImpl
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -47,5 +47,5 @@ val DIModule = module {
     // luizssb: view models
     viewModel<ProductList.ViewModel> { ProductListViewModelImpl(get(), get()) }
     viewModel<ProductDetail.ViewModel> { params -> ProductDetailViewModelImpl(get(), params.get()) }
-    viewModel<ReviewList.ViewModel> { params -> ReviewListViewModelImpl(get(), get(), params.get()) }
+    viewModel<Reviews.ViewModel> { params -> ReviewsViewModelImpl(get(), get(), params.get()) }
 }

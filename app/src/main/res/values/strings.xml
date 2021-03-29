@@ -10,4 +10,7 @@
     <string name="description_product_add_review">Write review</string>
     <string name="label_review_item_location">From:</string>
     <string name="label_locale_unknown">Unknown</string>
+    <string name="hint_review">Tell others about your experience</string>
+    <string name="button_review">Send review</string>
+    <string name="error_review_compose_nil_fields">Please provide a rating and a short review</string>
 </resources>

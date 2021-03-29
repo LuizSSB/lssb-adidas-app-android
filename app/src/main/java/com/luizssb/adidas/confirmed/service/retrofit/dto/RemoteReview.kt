@@ -11,23 +11,23 @@ import java.io.Serializable
 // is severely lacking, and, in the end, what I do here is what I'd do in that case.
 data class RemoteReview(
     val productId: String,
-    val locale: String,
     val rating: Int,
-    val text: String
+    val text: String,
+    val locale: String,
 ) : Serializable {
     fun toAppType() = Review(
-        productId,
-        LocaleEx.fromLanguageTag(locale),
-        Rating.from(rating),
-        text
+            productId,
+            Rating.from(rating),
+            text,
+            LocaleEx.fromLanguageTag(locale),
     )
 
     companion object {
         fun Review.toRemoteType() = RemoteReview(
-            productId,
-            locale?.getLanguageTag(LocaleEx.LanguageCountrySeparator.DASH) ?: "",
-            rating.value,
-            text
+                productId,
+                rating.value,
+                text,
+                locale?.getLanguageTag(LocaleEx.LanguageCountrySeparator.DASH) ?: ""
         )
     }
 }

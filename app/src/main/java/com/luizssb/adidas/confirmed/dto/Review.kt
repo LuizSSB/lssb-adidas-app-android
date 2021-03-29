@@ -4,12 +4,12 @@ import java.io.Serializable
 import java.util.*
 
 data class Review(
-    val productId: String,
-    val locale: Locale?,
-    val rating: Rating,
-    val text: String
+        val productId: String,
+        val rating: Rating,
+        val text: String,
+        val locale: Locale? = Locale.getDefault(),
 ) : Serializable {
     companion object {
-        val NIL = Review("", null, Rating.MIN, "text")
+        val NIL = Review("", Rating.MIN, "text", null)
     }
 }

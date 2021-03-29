@@ -10,7 +10,10 @@ enum class Rating {
     val value get() = this.ordinal + 1
 
     companion object {
-        fun from(number: Int) = values().let { it[number.coerceIn(1, it.size)] }
+        fun from(number: Int) = values().let { it[number.coerceIn(MIN.value, MAX.value) - 1] }
+        fun tryFrom(number: Int) = number
+                .takeIf { it >= MIN.value && it <= MAX.value }
+                ?.let { from(it) }
 
         val MAX = values().last()
         val MIN = values().first()
