@@ -43,7 +43,6 @@ android {
 
     buildTypes {
         def localIp = getLocalIPv4()
-
         if (localIp == null) {
             throw new Exception("Gotta be connected to the internet in order to build the app.")
         }
@@ -96,6 +95,8 @@ dependencies {
     annotationProcessor "com.github.bumptech.glide:compiler:$versions.glide"
 
     testImplementation "junit:junit:$testVersions.junit"
+    androidTestImplementation "org.mockito:mockito-core:$testVersions.mockito"
+    androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:$testVersions.dexmaker"
 
     androidTestImplementation "androidx.test.ext:junit:$androidTestVersions.junit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidTestVersions.espresso"

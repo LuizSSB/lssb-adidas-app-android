@@ -19,7 +19,9 @@ buildscript {
     ]
 
     ext.testVersions = [
-            junit: "4.13.2"
+            junit: "4.13.2",
+            mockito: "2.28.2",
+            dexmaker: "2.12.1"
     ]
 
     ext.androidTestVersions = [
