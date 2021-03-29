@@ -1,3 +1,17 @@
+static String getLocalIPv4() {
+    def ips = NetworkInterface.getNetworkInterfaces()
+            .findAll { it.isUp() && !it.isLoopback() && !it.isVirtual() }
+            .collect {
+                it.getInetAddresses()
+                        .findAll { !it.isLoopbackAddress() && it instanceof Inet4Address }
+                        .collect { it.toString().replace("/", "") }
+                        .findAll { it.startsWith("192.168.") }
+            }
+            .flatten()
+
+    return ips.size() > 0 ? ips.first() : null
+}
+
 plugins {
     id "com.android.application"
     id "kotlin-android"
@@ -13,7 +27,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -28,7 +42,7 @@ android {
     }
 
     buildTypes {
-        def serviceUrlHost = "http://192.168.0.135"
+        def serviceUrlHost = "http://localhost"
         def serviceUrlProduct = "$serviceUrlHost:3001/"
         def serviceUrlReview = "$serviceUrlHost:3002/"
         def serviceSecondsTimeout = "10L"
@@ -45,6 +59,27 @@ android {
             buildConfigField("String", "SERVICE_URL_PRODUCT", "\"$serviceUrlProduct\"")
             buildConfigField("String", "SERVICE_URL_REVIEW", "\"$serviceUrlReview\"")
             buildConfigField("Long", "SERVICE_SECONDS_TIMEOUT", serviceSecondsTimeout)
+        }
+
+        def localIp = getLocalIPv4()
+        if (localIp != null) {
+            def localIpUrlHost = "http://localhost"
+            def localIpUrlProduct = "$localIpUrlHost:3001/"
+            def localIpUrlReview = "$localIpUrlHost:3002/"
+
+            release_localIP {
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+                buildConfigField("String", "SERVICE_URL_PRODUCT", "\"$localIpUrlProduct\"")
+                buildConfigField("String", "SERVICE_URL_REVIEW", "\"$localIpUrlReview\"")
+                buildConfigField("Long", "SERVICE_SECONDS_TIMEOUT", serviceSecondsTimeout)
+            }
+
+            debug_localIP {
+                buildConfigField("String", "SERVICE_URL_PRODUCT", "\"$localIpUrlProduct\"")
+                buildConfigField("String", "SERVICE_URL_REVIEW", "\"$localIpUrlReview\"")
+                buildConfigField("Long", "SERVICE_SECONDS_TIMEOUT", serviceSecondsTimeout)
+            }
         }
     }
 
