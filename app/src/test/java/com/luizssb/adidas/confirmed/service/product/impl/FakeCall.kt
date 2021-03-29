@@ -1,24 +1,36 @@
 package com.luizssb.adidas.confirmed.service.product.impl
 
 import com.luizssb.adidas.confirmed.BuildConfig
+import okhttp3.MediaType
 import okhttp3.Request
+import okhttp3.ResponseBody
 import okio.Timeout
+import org.bouncycastle.crypto.tls.ContentType
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.concurrent.TimeUnit
 
-class FakeCall<T>(private val data: T) : Call<T> {
+class FakeCall<T>(private val _response: Response<T>) : Call<T> {
+    companion object {
+        fun <T> forData(result: T) = FakeCall(Response.success(result))
+
+        fun <T> forErrorCode(code: Int) = FakeCall<T>(Response.error(
+            code,
+            ResponseBody.create(MediaType.get("application/json"), "{}")
+        ))
+    }
+
     private var executed: Boolean = false
 
     private val response: Response<T>
         get() {
             executed = true
-            return Response.success(data)
+            return _response
         }
 
     override fun clone(): Call<T> {
-        return FakeCall(data)
+        return FakeCall(_response)
     }
 
     override fun execute(): Response<T> {
