@@ -18,28 +18,28 @@ abstract class ListingViewControllerEx private constructor() {
                 refresh: SwipeRefreshLayout,
                 adapter: PagingDataAdapter<T, TVH>
         ) {
+            refresh.setOnRefreshListener { controller.handleIntent(Listing.Intent.Refresh) }
+
             lifecycleScope.launch {
                 adapter.loadStateFlow.collectLatest {
                     controller.handleIntent(Listing.Intent.ChangeLoadState(it))
                 }
             }
 
-            with(controller) {
-                state.observe(viewLifecycleOwner) {
-                    refresh.isRefreshing = it.loadingRefresh
-                    lifecycleScope.launch {
-                        adapter.submitData(it.entries)
-                    }
+            controller.state.observe(viewLifecycleOwner) {
+                refresh.isRefreshing = it.loadingRefresh
+                lifecycleScope.launch {
+                    adapter.submitData(it.entries)
                 }
+            }
 
-                effects.observeOnLifecycle(viewLifecycleOwner) {
-                    when(it) {
-                        Listing.Effect.Refresh -> adapter.refresh()
+            controller.effects.observeOnLifecycle(viewLifecycleOwner) {
+                when(it) {
+                    Listing.Effect.Refresh -> adapter.refresh()
 
-                        is Listing.Effect.ShowError ->
-                            // TODO luizssb: replace with snackbar
-                            Toast.makeText(requireContext(), it.error.message, Toast.LENGTH_SHORT).show()
-                    }
+                    is Listing.Effect.ShowError ->
+                        // TODO luizssb: replace with snackbar
+                        Toast.makeText(requireContext(), it.error.message, Toast.LENGTH_SHORT).show()
                 }
             }
         }

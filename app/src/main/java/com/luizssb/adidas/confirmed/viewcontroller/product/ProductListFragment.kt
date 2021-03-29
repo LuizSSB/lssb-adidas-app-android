@@ -46,8 +46,6 @@ class ProductListFragment : Fragment() {
         layout = FragmentProductListBinding.inflate(inflater, container, false)
                 .apply {
                     configureMenu(toolbar)
-
-                    refresh.setOnRefreshListener { viewModel.listingController.handleIntent(Listing.Intent.Refresh) }
                     list.adapter = itemAdapter
                 }
 
