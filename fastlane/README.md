@@ -30,6 +30,16 @@ Checks if a version name follows the pattern major.minor.patch
 fastlane bump_version_name
 ```
 Bumps a version name following the pattern major.minor.patch
+### commit_versioning
+```
+fastlane commit_versioning
+```
+Adds changed versioning files to git, and commit
+### tag_versioning
+```
+fastlane tag_versioning
+```
+Tags the current branch and push to remote
 
 ----
 
