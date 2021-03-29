@@ -26,4 +26,13 @@
     <style name="Theme.App.Splash" parent="Theme.App">
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
+
+    <style name="Theme.App.Rating">
+        <!-- luizssb: hardcoded because this should be the only place we use it -->
+        <item name="android:max">5</item>
+        <item name="android:numStars">5</item>
+
+        <item name="android:stepSize">1</item>
+        <item name="colorControlActivated">@color/background_rating_selected</item>
+    </style>
 </resources>

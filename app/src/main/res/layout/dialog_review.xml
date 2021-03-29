@@ -16,9 +16,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/rating"
+        android:theme="@style/Theme.App.Rating"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/margin_large"
-        android:stepSize="1"/>
+        android:layout_marginTop="@dimen/margin_large" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"

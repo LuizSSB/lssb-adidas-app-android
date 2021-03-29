@@ -25,10 +25,6 @@ class ReviewViewHolder(private val layout: ItemReviewBinding) : RecyclerView.Vie
             val layout = ItemReviewBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
             )
-                    .apply {
-                        rating.max = Rating.MAX.value
-                        rating.numStars = Rating.MAX.value
-                    }
             return ReviewViewHolder(layout)
         }
     }

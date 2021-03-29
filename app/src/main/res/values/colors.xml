@@ -18,4 +18,6 @@
 
     <color name="background_product_header">#ededed</color>
     <color name="separator_default">#DDDDDD</color>
+
+    <color name="background_rating_selected">#f9bf00</color>
 </resources>
