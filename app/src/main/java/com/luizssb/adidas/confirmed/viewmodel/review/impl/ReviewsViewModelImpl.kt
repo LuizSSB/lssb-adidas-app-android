@@ -5,14 +5,15 @@ import androidx.paging.cachedIn
 import com.luizssb.adidas.confirmed.dto.Rating
 import com.luizssb.adidas.confirmed.dto.Review
 import com.luizssb.adidas.confirmed.repository.review.ReviewRepository
+import com.luizssb.adidas.confirmed.viewmodel.MVIControllerProperty
 import com.luizssb.adidas.confirmed.viewmodel.list.Listing
 import com.luizssb.adidas.confirmed.viewmodel.review.Reviews
 import kotlinx.coroutines.launch
 
 class ReviewsViewModelImpl(
-        private val repository: ReviewRepository,
-        override val listingController: Listing.Controller<Review>,
-        private val productId: String
+    private val repository: ReviewRepository,
+    @get:MVIControllerProperty override val listingController: Listing.Controller<Review>,
+    private val productId: String
 ) : Reviews.ViewModel() {
     override fun start() {
         listingController.updateEntries(

@@ -4,13 +4,14 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.luizssb.adidas.confirmed.dto.Product
 import com.luizssb.adidas.confirmed.repository.product.ProductRepository
+import com.luizssb.adidas.confirmed.viewmodel.MVIControllerProperty
 import com.luizssb.adidas.confirmed.viewmodel.list.Listing
 import com.luizssb.adidas.confirmed.viewmodel.product.Products
 import kotlinx.coroutines.flow.takeWhile
 
 class ProductsViewModelImpl(
     private val repository: ProductRepository,
-    override val listingController: Listing.Controller<Product>
+    @get:MVIControllerProperty override val listingController: Listing.Controller<Product>
 ) : Products.ViewModel() {
     override fun start() {
         listenToProducts()
