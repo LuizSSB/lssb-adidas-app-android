@@ -89,12 +89,6 @@ class ProductFragment : Fragment() {
             effects.observeOnLifecycle(viewLifecycleOwner, ::render)
         }
 
-        justObserveListing(
-            reviewsViewModel.listingController,
-            layout.refreshReviews,
-            layout.listReviews,
-            reviewsAdapter
-        )
 
         return layout.root
     }

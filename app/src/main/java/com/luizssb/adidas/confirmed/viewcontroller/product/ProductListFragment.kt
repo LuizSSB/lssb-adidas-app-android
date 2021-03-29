@@ -52,7 +52,6 @@ class ProductListFragment : Fragment() {
             it.effects.observeOnLifecycle(viewLifecycleOwner, ::render)
         }
 
-        justObserveListing(viewModel.listingController, layout.refresh, layout.list, itemAdapter)
 
         return layout.root
     }
