@@ -11,6 +11,7 @@ import com.luizssb.adidas.confirmed.utils.PageRef
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.empty
 import org.junit.Assert.*
 import org.junit.Test
