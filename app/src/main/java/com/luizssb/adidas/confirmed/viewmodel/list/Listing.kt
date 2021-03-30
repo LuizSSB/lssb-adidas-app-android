@@ -21,7 +21,6 @@ class Listing {
     )
 
     abstract class Effect private constructor() {
-        data class ShowError(val error: Throwable) : Effect()
         object Refresh : Effect()
         object Retry : Effect()
     }
