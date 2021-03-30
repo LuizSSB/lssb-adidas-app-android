@@ -112,6 +112,9 @@ platform :android do
       flags: "--parallel",
     )
 
+    # luizssb: in a production environment this is where we would upload the built binary to
+    # the Play Store
+
     commit_versioning(grouping: "release")
 
     sh("git checkout master")
