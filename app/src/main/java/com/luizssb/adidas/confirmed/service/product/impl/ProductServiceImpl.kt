@@ -39,10 +39,10 @@ class ProductServiceImpl(private val api: RetrofitProductRESTAPI) : ProductServi
 
     override suspend fun getProduct(productId: String): Product? = withContext(Dispatchers.IO) {
         try {
-            api.getProduct(productId)
-                    .await()
-                    .takeIf { it.isValid }
-                    ?.run { toAppType() }
+            val call = api.getProduct(productId)
+            val result = call.await()
+            result.takeIf { it.isValid }
+                ?.run { toAppType() }
         } catch (ex: HttpException) {
             if (ex.code() == 500) null
                 else throw ex

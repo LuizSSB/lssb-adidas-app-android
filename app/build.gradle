@@ -43,7 +43,6 @@ android {
 
     buildTypes {
         def localIp = getLocalIPv4()
-
         if (localIp == null) {
             throw new Exception("Gotta be connected to the internet in order to build the app.")
         }
@@ -71,6 +70,10 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -95,7 +98,15 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$versions.glide"
     annotationProcessor "com.github.bumptech.glide:compiler:$versions.glide"
 
+    testImplementation "androidx.test:core-ktx:$testVersions.androidx.core_ktx"
+    testImplementation "androidx.arch.core:core-testing:$testVersions.androidx.core"
+
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$testVersions.coroutines"
     testImplementation "junit:junit:$testVersions.junit"
+    testImplementation "org.hamcrest:hamcrest-all:$testVersions.hamcrest"
+    testImplementation "org.robolectric:robolectric:$testVersions.robolectric"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:$testVersions.mockito"
+    testImplementation "com.linkedin.dexmaker:dexmaker-mockito:$testVersions.dexmaker"
 
     androidTestImplementation "androidx.test.ext:junit:$androidTestVersions.junit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidTestVersions.espresso"

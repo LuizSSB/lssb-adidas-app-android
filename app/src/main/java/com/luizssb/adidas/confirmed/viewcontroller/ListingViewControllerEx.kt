@@ -1,6 +1,5 @@
 package com.luizssb.adidas.confirmed.viewcontroller
 
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -55,12 +54,7 @@ abstract class ListingViewControllerEx private constructor() {
             controller.effects.observeOnLifecycle(viewLifecycleOwner) {
                 when(it) {
                     Listing.Effect.Refresh -> adapter.refresh()
-
                     Listing.Effect.Retry -> adapter.retry()
-
-                    is Listing.Effect.ShowError ->
-                        // TODO luizssb: replace with snackbar
-                        Toast.makeText(requireContext(), it.error.message, Toast.LENGTH_SHORT).show()
                 }
             }
         }
