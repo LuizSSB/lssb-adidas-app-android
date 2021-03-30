@@ -26,8 +26,8 @@ android {
         applicationId "com.luizssb.adidas.confirmed"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 4
-        versionName "1.2.0"
+        versionCode 5
+        versionName "1.2.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
