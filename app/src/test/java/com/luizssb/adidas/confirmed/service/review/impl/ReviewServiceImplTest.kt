@@ -58,7 +58,7 @@ class ReviewServiceImplTest {
         // assert
         assertFalse(page.hasMore)
         assertThat(page.data, `is`(empty()))
-        verify(api, times(1)).getProducts()
+        verify(api, times(1)).getProduct(id)
         Unit
     }
 
@@ -97,7 +97,7 @@ class ReviewServiceImplTest {
 
         assertFalse(page3.hasMore)
         assertThat(page3.data, `is`(empty()))
-        verify(api, times(3)).getProducts()
+        verify(api, times(3)).getProduct(id)
         Unit
     }
 
