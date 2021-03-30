@@ -8,9 +8,11 @@ import com.luizssb.adidas.confirmed.service.PaginationResult
 import com.luizssb.adidas.confirmed.utils.PageRef
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.Is.`is`
 import org.hamcrest.core.IsInstanceOf.instanceOf
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
